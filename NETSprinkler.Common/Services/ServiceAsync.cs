@@ -1,10 +1,30 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using NETSprinkler.Business.Repositories;
+using NETSprinkler.Common.Repositories;
 using NETSprinkler.Contracts.Entity;
 using NETSprinkler.Models.Entity;
 
-namespace NETSprinkler.Business.Services;
+namespace NETSprinkler.Common.Services;
+
+public class ServiceAsync<TEntity> : IServiceAsync<TEntity> where TEntity : Entity
+{
+    private readonly IRepositoryAsync<TEntity> _repositoryAsync;
+
+    protected ServiceAsync(IRepositoryAsync<TEntity> repositoryAsync)
+    {
+        _repositoryAsync = repositoryAsync;
+    }
+    public Task<TEntity?> GetById(int id)
+    {
+        return _repositoryAsync.GetById(id);
+    }
+
+    public Task<TEntity?> GetByIdWithInclude(int id, Expression<Func< TEntity, Entity>> expression)
+    {
+        var x = _repositoryAsync.GetByIdWithInclude(id: id, expression: expression);
+        return x;
+    }
+}
 
 public class ServiceAsync<TEntity, TDto>: IServiceAsync<TEntity, TDto>
     where TEntity: Entity where TDto: EntityDto
@@ -24,7 +44,7 @@ public class ServiceAsync<TEntity, TDto>: IServiceAsync<TEntity, TDto>
         return _repositoryAsync.GetAll(predicate).AsEnumerable().Select(_mapper.Map<TDto>).ToList();
     }
 
-    public Task AddAsync(TDto entity)
+    public Task<TEntity> AddAsync(TDto entity)
     {
         var e = _mapper.Map<TEntity>(entity);
         return _repositoryAsync.AddAsync(e);

@@ -1,10 +1,9 @@
 using System.Reflection;
 using AutoMapper;
 using NETSprinkler.Contracts.Entity.Schedule;
-using NETSprinkler.Helpers.Mapping;
-using NETSprinkler.Models.Entity.Schedule;
+using NETSprinkler.Contracts.Mapping;
 
-namespace NETSprinkler.Helpers;
+namespace NETSprinkler.Business.Helpers;
 
 public class MappingProfile : Profile
 {

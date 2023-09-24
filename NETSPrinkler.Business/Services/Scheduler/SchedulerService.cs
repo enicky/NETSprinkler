@@ -1,25 +1,31 @@
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using NETSprinkler.Business.Repositories;
+using NETSprinkler.Common.Repositories;
+using NETSprinkler.Common.Services;
 using NETSprinkler.Contracts.Entity.Schedule;
-using NETSprinkler.Contracts.Scheduler;
 using NETSprinkler.Models.Entity.Schedule;
 
-namespace NETSprinkler.Business.Scheduler;
+namespace NETSprinkler.Business.Services.Scheduler;
 
-public class SchedulerFacade: ISchedulerFacade
+public class SchedulerService: ServiceAsync<Schedule, ScheduleDto>, ISchedulerService
 {
-    private readonly ILogger<SchedulerFacade> _logger;
+    private readonly ILogger<SchedulerService> _logger;
     private readonly IRepositoryAsync<Schedule> _schedulerRepository;
+    private readonly IMapper _mapper;
 
-    public SchedulerFacade(ILogger<SchedulerFacade> logger, IRepositoryAsync<Schedule> schedulerRepository)
+    public SchedulerService(ILogger<SchedulerService> logger, IRepositoryAsync<Schedule> schedulerRepository, IMapper mapper)
+        : base(schedulerRepository, mapper)
     {
         _logger = logger;
         _schedulerRepository = schedulerRepository;
+        _mapper = mapper;
     }
-    public IEnumerable<ScheduleDto> GetAllSchedules()
+
+
+    public async Task<List<ScheduleDto>> GetAll(CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Retrieving all schedules that are available");
-        var q =  _schedulerRepository.GetAll().ToList();
-        return q;
+        _logger.LogInformation("[SchedulerService:GetAll] Retrieving all schedules");
+        return _mapper.Map<List<ScheduleDto>>(await _schedulerRepository.Entities.ToListAsync(cancellationToken));
     }
 }

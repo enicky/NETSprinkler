@@ -6,7 +6,7 @@ using NETSprinkler.Common.Services;
 using NETSprinkler.Contracts.Entity.Valve;
 using NETSprinkler.Models.Entity.Valve;
 
-namespace NETSprinkler.Business.Services.Scheduler;
+namespace NETSprinkler.Business.Services.Valve;
 
 public class ValveService : ServiceAsync<SprinklerValve, SprinklerValveDto>, IValveService
 {
@@ -28,8 +28,10 @@ public class ValveService : ServiceAsync<SprinklerValve, SprinklerValveDto>, IVa
         return _mapper.Map<List<SprinklerValveDto>>(await _repository.Entities.ToListAsync(cancellationToken));
     }
 
-    public Task AddEmptyAsync(SprinklerValveDto sprinklerValveDto)
+    public async Task<SprinklerValve> AddEmptyAndReturnValveIdAsync(SprinklerValveDto sprinklerValveDto)
     {
-        return AddAsync(sprinklerValveDto);
+        var saved =  await AddAsync(sprinklerValveDto);
+        return saved;
+
     }
 }

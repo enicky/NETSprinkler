@@ -1,4 +1,4 @@
-namespace NETSprinkler.Business.Entity;
+namespace NETSprinkler.Models.Entity;
 
 public class Entity
 {

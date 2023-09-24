@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>NETSprinkler.Business</AssemblyName>
+        <RootNamespace>NETSprinkler.Business</RootNamespace>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\NETSprinkler.Common\NETSprinkler.Common.csproj" />
+      <ProjectReference Include="..\NETSprinkler.Contracts\NETSprinkler.Contracts.csproj" />
+    </ItemGroup>
+
+   
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.4" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0-preview.6.23329.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.6.23329.4">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.6.23329.4" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-preview.6.23329.7" />
+   
+
+    </ItemGroup>
+
+
+
+
+
+
+
+
+
+</Project>

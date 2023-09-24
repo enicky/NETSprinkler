@@ -1,8 +1,13 @@
+using NETSprinkler.Models.Entity.Valve;
+
 namespace NETSprinkler.Models.Entity.Status;
 
-public class SprinklerStatus: Entity
+public class ValveStatus: Entity
 {
-    public int? SprinklerId { get; set; }
     public bool IsEnabled { get; set; } = true;
     public bool IsOpen { get; set; } = false;
+
+    
+    public int? SprinklerValveId { get; set; }
+    public SprinklerValve SprinklerValve { get; set; } = null!;
 }

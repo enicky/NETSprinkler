@@ -1,9 +1,10 @@
+using NETSprinkler.Common.Services;
 using NETSprinkler.Contracts.Entity.Schedule;
-using NETSprinkler.Contracts.Scheduler;
+using NETSprinkler.Models.Entity.Schedule;
 
-namespace NETSprinkler.Business.Scheduler;
+namespace NETSprinkler.Business.Services.Scheduler;
 
-public interface ISchedulerFacade
+public interface ISchedulerService: IServiceAsync<Schedule, ScheduleDto>
 {
-    IEnumerable<ScheduleDto> GetAllSchedules();
+    Task<List<ScheduleDto>> GetAll(CancellationToken cancellationToken);
 }

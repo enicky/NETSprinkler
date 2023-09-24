@@ -1,6 +1,6 @@
 namespace NETSprinkler.Common.Exceptions;
 
-public class InvalidScheduleIdException
+public class InvalidScheduleIdException : Exception
 {
     
 }

@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace NETSprinkler.Common.Mapping;
+namespace NETSprinkler.Contracts.Mapping;
 
 public interface IMapFrom
 {

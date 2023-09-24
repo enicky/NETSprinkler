@@ -1,6 +1,12 @@
 namespace NETSprinkler.Contracts.Entity;
 
-public class DayReferenceDto
+public enum DayReferenceDto
 {
-    
+    Sunday = 0,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday
 }

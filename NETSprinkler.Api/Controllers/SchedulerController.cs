@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using NETSprinkler.Business.DbContext;
 using NETSprinkler.Business.Services.Scheduler;
+using NETSprinkler.Common.DbContext;
 using NETSprinkler.Contracts.Scheduler;
 
 namespace NETSprinkler.Controllers;

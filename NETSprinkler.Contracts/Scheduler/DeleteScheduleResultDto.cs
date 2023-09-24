@@ -1,6 +1,6 @@
 namespace NETSprinkler.Contracts.Scheduler;
 
-public class DeleteScheduleResultDto
+public class DeleteScheduleResultDto : BaseResponseDto
 {
     
 }

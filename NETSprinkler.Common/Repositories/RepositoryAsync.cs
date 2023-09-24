@@ -1,9 +1,10 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using NETSprinkler.Business.DbContext;
+using NETSprinkler.Common.DbContext;
+using NETSprinkler.Common.Services;
 using NETSprinkler.Models.Entity;
 
-namespace NETSprinkler.Business.Repositories;
+namespace NETSprinkler.Common.Repositories;
 
 public class RepositoryAsync<T>: IRepositoryAsync<T> where T: Entity
 {
@@ -23,9 +24,10 @@ public class RepositoryAsync<T>: IRepositoryAsync<T> where T: Entity
         return result;
     }
 
-    public async Task AddAsync(T entity)
+    public async Task<T> AddAsync(T entity)
     {
-        await _dbContext.Set<T>().AddAsync(entity);
+        var saveResult =  await _dbContext.Set<T>().AddAsync(entity);
+        return saveResult.Entity;
     }
 
     public Task DeleteAsync(T entity)
@@ -37,5 +39,10 @@ public class RepositoryAsync<T>: IRepositoryAsync<T> where T: Entity
     public async Task<T?> GetById(int id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
+    }
+
+    public Task<T?> GetByIdWithInclude(int id, Expression<Func<T, Entity>> expression)
+    {
+        return _dbContext.Set<T>().Include(expression).FirstOrDefaultAsync(q => q.Id == id);
     }
 }

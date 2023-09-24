@@ -1,4 +1,4 @@
-namespace NETSprinkler.Business.DbContext;
+namespace NETSprinkler.Common.DbContext;
 
 public interface IUnitOfWork
 {
