@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using NETSprinkler.Business.Services.Scheduler;
 using NETSprinkler.Business.Services.Valve;
 using NETSprinkler.Common.DbContext;
 using NETSprinkler.Contracts.Entity.Valve;
@@ -28,7 +27,7 @@ public class ValveController: Controller
     [HttpPost("CreateValve")]
     public async Task<CreateValveResponseDto> CreateValve(CancellationToken token, CreateValveRequestDto req)
     {
-        var createdSprinkler = await _valveService.AddEmptyAndReturnValveIdAsync(new SprinklerValveDto { Name = req.Name });
+        var createdSprinkler = await _valveService.AddEmptyAndReturnValveIdAsync(new SprinklerValveDto { Name = req.Name, });
         await _unitOfWork.SaveChangesAsync(token);
         return new CreateValveResponseDto()
         {

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Repositories\" />
+      <Folder Include="Extensions\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,4 +28,7 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <None Remove="Extensions\" />
+    </ItemGroup>
 </Project>

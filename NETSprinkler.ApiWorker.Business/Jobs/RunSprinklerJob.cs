@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
-using NETSprinkler.Common.Services;
 
 namespace NETSprinkler.ApiWorker.Business.Jobs;
 

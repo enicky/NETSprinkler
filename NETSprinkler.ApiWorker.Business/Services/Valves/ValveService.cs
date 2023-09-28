@@ -32,7 +32,7 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
         var w =  await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
         if (w == null) throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
         // Perform GPIO functionality
-        await _gpioDriver.OpenPin(sprinklerValveId);
+        await _gpioDriver.OpenPin(w.Port);
         w!.Status!.IsOpen = true;
         
     }
@@ -42,7 +42,7 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
         var w = await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
         if (w == null) throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
         // Perform GPIO Functionality
-        await _gpioDriver.ClosePin(sprinklerValveId);
+        await _gpioDriver.ClosePin(w.Port);
         w!.Status!.IsOpen = false;
     }
 }

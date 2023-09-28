@@ -23,8 +23,8 @@ public static class NetSprinklerServiceHelpers
         s.AddScoped<ISchedulerService, SchedulerService>();
         s.AddScoped(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
         s.AddScoped<IValveService, ValveService>();
-        //s.AddScoped<IGpioDriver, RPiDriver>();
-        s.AddScoped<IGpioDriver, DummyDriver>();
+        s.AddScoped<IGpioDriver, RPiDriver>();
+        //s.AddScoped<IGpioDriver, DummyDriver>();
         return s;
     }
 }
