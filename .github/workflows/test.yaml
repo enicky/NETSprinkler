@@ -23,7 +23,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: user/app:latest
+          tags: neichmann/netsprinkler:latest
+          platforms: linux/amd64,linux/arm64
+          file: NETSprinkler.ApiWorker/Dockerfile
   Explore-GitHub-Actions:
     runs-on: self-hosted
     steps:
