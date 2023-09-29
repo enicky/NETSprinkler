@@ -9,7 +9,7 @@
       <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/ValveService.cs" Line="47" Column="1" />
       <File FileName="NETSprinkler.ApiWorker.Business/Drivers/DummyDriver.cs" Line="5" Column="25" />
       <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/IValveService.cs" Line="8" Column="14" />
-      <File FileName="NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" />
+      <File FileName="NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" Line="1" Column="1" />
       <File FileName="NETSprinkler.ApiWorker.Business/NETSprinkler.ApiWorker.Business.csproj" />
       <File FileName="NETSprinkler.ApiWorker.Business/SampleJob.cs" />
       <File FileName="NETSprinkler.ApiWorker/Program.cs" Line="28" Column="26" />
@@ -31,19 +31,13 @@
       <File FileName="NETSprinkler.ApiWorker.Business/Drivers/IGpioDriver.cs" Line="6" Column="13" />
       <File FileName="NETSprinkler.Api/Controllers/ValveController.cs" Line="30" Column="97" />
       <File FileName="NETSprinkler.Contracts/Entity/Valve/SprinklerValveDto.cs" Line="14" Column="49" />
-      <File FileName="NETSprinkler.ApiWorker/Dockerfile" Line="11" Column="11" />
+      <File FileName="NETSprinkler.ApiWorker/Dockerfile" Line="29" Column="1" />
       <File FileName=".dockerignore" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="NETSprinkler">
-            <Node name="Api" expanded="True" />
-            <Node name="ApiWorker" expanded="True">
-              <Node name="NETSprinkler.ApiWorker" selected="True" />
-            </Node>
-            <Node name="Common" expanded="True" />
-          </Node>
+          <Node name="NETSprinkler" selected="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
