@@ -31,5 +31,5 @@ jobs:
           push: true
           tags: neichmann/netsprinkler.apiworker:latest
           file: NETSprinkler.ApiWorker/Dockerfile
-          platforms: linux/amd64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64
           
