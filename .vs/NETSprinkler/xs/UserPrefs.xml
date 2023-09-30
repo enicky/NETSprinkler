@@ -1,51 +1,8 @@
-﻿<Properties GitUserInfo="UsingMD" StartupConfiguration="{1A066E05-0B2C-43E6-AE41-CAE79FC33568}|http">
-  <MultiItemStartupConfigurations />
+﻿<Properties GitUserInfo="UsingMD" StartupConfiguration="{1A066E05-0B2C-43E6-AE41-CAE79FC33568}|https">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.NETSprinkler.Worker PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.ItemProperties.ApiWorker.NETSprinkler.ApiWorker PreferredExecutionTarget="/Applications/Microsoft Edge.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NETSprinkler.ApiWorker/Dockerfile">
-    <Files>
-      <File FileName="NETSprinkler.ApiWorker.Tests/ValveServiceTests.cs" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/ValveService.cs" Line="47" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Drivers/DummyDriver.cs" Line="5" Column="25" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/IValveService.cs" Line="8" Column="14" />
-      <File FileName="NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" Line="1" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/NETSprinkler.ApiWorker.Business.csproj" />
-      <File FileName="NETSprinkler.ApiWorker.Business/SampleJob.cs" />
-      <File FileName="NETSprinkler.ApiWorker/Program.cs" Line="28" Column="26" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Helpers/NetSprinklerServiceHelpers.cs" Line="27" Column="11" />
-      <File FileName="NETSprinkler.Common/DbContext/SprinklerDbContext.cs" />
-      <File FileName="../../../../usr/local/share/dotnet/sdk/7.0.308/Microsoft.Common.CurrentVersion.targets" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" Line="126" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" Line="31" Column="1" />
-      <File FileName="NETSprinkler.Common/Services/ServiceAsync.cs" />
-      <File FileName="NETSprinkler.Common/Repositories/RepositoryAsync.cs" />
-      <File FileName="NETSprinkler.ApiWorker/appsettings.json" />
-      <File FileName="NETSprinkler.Models/Entity/Schedule/Schedule.cs" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" Line="36" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Sprinkler/SprinklerService.cs" Line="33" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Sprinkler/ISprinklerService.cs" Line="5" Column="16" />
-      <File FileName="LICENSE.txt" Line="675" Column="50" />
-      <File FileName="README.md" Line="3" Column="39" />
-      <File FileName="NETSprinkler.Common/Extensions/BitExtensions.cs" Line="65" Column="10" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Drivers/IGpioDriver.cs" Line="6" Column="13" />
-      <File FileName="NETSprinkler.Api/Controllers/ValveController.cs" Line="30" Column="97" />
-      <File FileName="NETSprinkler.Contracts/Entity/Valve/SprinklerValveDto.cs" Line="14" Column="49" />
-      <File FileName="NETSprinkler.ApiWorker/Dockerfile" Line="29" Column="1" />
-      <File FileName=".dockerignore" Line="1" Column="1" />
-    </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="NETSprinkler" selected="True" />
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ApiWorker.NETSprinkler.ApiWorker PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" relfile="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" line="31" column="1" />
@@ -54,6 +11,73 @@
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" relfile="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" line="22" column="1" />
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" relfile="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" line="36" column="1" />
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" relfile="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" line="40" column="1" />
+      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.Common/DbContext/SprinklerDbContext.cs" relfile="NETSprinkler.Common/DbContext/SprinklerDbContext.cs" line="32" column="1" />
+      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker/Program.cs" relfile="NETSprinkler.ApiWorker/Program.cs" line="62" column="1" />
+      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker/Program.cs" relfile="NETSprinkler.ApiWorker/Program.cs" line="37" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="NETSprinkler.ApiWorker/appsettings.json">
+    <Files>
+      <File FileName="NETSprinkler.Common/DbContext/SprinklerDbContext.cs" Line="39" Column="13" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" Line="31" Column="1" />
+      <File FileName="NETSprinkler.ApiWorker/appsettings.json" Line="2" Column="19" />
+      <File FileName="NETSprinkler.ApiWorker/Program.cs" Line="39" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="NETSprinkler">
+            <Node name="Api" expanded="True" />
+            <Node name="ApiWorker" expanded="True">
+              <Node name="NETSprinkler.ApiWorker">
+                <Node name="appsettings.json" selected="True" />
+              </Node>
+              <Node name="NETSprinkler.ApiWorker.Business">
+                <Node name="Helpers" expanded="True" />
+                <Node name="Jobs" expanded="True" />
+                <Node name="Services" expanded="True">
+                  <Node name="Scheduler" expanded="True" />
+                  <Node name="Sprinkler" expanded="True" />
+                  <Node name="Valves" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="Common" expanded="True">
+              <Node name="NETSprinkler.Common">
+                <Node name="Dependencies" expanded="True">
+                  <Node name="PackageDependencies" expanded="True" />
+                  <Node name="ProjectDependencies" expanded="True" />
+                </Node>
+                <Node name="DbContext" expanded="True">
+                  <Node name="Configuration" expanded="True" />
+                </Node>
+                <Node name="Extensions" expanded="True" />
+                <Node name="Repositories" expanded="True" />
+                <Node name="Services" expanded="True" />
+              </Node>
+              <Node name="NETSprinkler.Contracts" expanded="True">
+                <Node name="Entity" expanded="True">
+                  <Node name="Valve" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="NETSprinkler.Models" expanded="True">
+                <Node name="Entity" expanded="True">
+                  <Node name="Schedule" expanded="True" />
+                </Node>
+              </Node>
+            </Node>
+            <Node name="NETSprinkler.Worker" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>builder.Configuration.GetSection("DBConfiguration")</Value>
+          <Value>x</Value>
+          <Value>builder.Configuration.get</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.NETSprinkler.Worker PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

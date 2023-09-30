@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NETSprinkler.Business.DbContext.Configuration;
 using NETSprinkler.Models.Entity;
@@ -14,15 +15,30 @@ public class SprinklerDbContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<ValveStatus> ValveStatus { get; set; }
     public DbSet<SprinklerValve> SprinklerValves { get; set; }
-    
-    public SprinklerDbContext(DbContextOptions<SprinklerDbContext> o, IOptions<DbConfigurationOptions>? dBConfiguration) : base(o){
+
+    private ILogger<SprinklerDbContext> _logger { get; set; }
+
+    public SprinklerDbContext(DbContextOptions<SprinklerDbContext> o, IOptions<DbConfigurationOptions>? dBConfiguration ,
+        ILogger<SprinklerDbContext> logger
+                        /*ILogger<SprinklerDbContext> logger*/) : base(o)
+    {
+        _logger = logger;
         if(dBConfiguration != null)
             _dBConfiguration = dBConfiguration.Value;
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if(_dBConfiguration != null)
-            optionsBuilder.UseSqlServer(_dBConfiguration.ConnectionString);
+        if(_dBConfiguration != null) {
+            var host = _dBConfiguration.Host;
+            var username = _dBConfiguration.Username;
+            var password = _dBConfiguration.Password;
+            var connectionString = _dBConfiguration.ConnectionString;
+            
+            connectionString = connectionString.Replace("{host}", host).Replace("{username}", username).Replace("{password}", password);
+            optionsBuilder.UseSqlServer(connectionString);
+
+        }
         base.OnConfiguring(optionsBuilder);
     }
 

@@ -5,6 +5,7 @@ using NETSprinkler.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appSettings.json", optional:true, reloadOnChange:true)
+    .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 // Add services to the container.
 

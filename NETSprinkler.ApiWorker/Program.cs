@@ -19,6 +19,7 @@ using var log = new LoggerConfiguration()
 Log.Logger = log; //new 
 //builder.Services.AddSingleton<Serilog.ILogger>(log);
 
+
 builder.Services.AddLogging(lb => lb.SetMinimumLevel(LogLevel.Warning).AddConsole().AddSerilog());
 builder.Logging.AddFilter<SerilogLoggerProvider>(null, LogLevel.Warning);
 builder.Services.Configure<DbConfigurationOptions>(builder.Configuration.GetSection("DBConfiguration"));
@@ -34,13 +35,20 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+var _dBConfiguration = builder.Configuration.GetSection("DBConfiguration");
+var host = _dBConfiguration["host"];
+var username = _dBConfiguration["Username"];
+var password = _dBConfiguration["Password"];
+var connectionString = _dBConfiguration["ConnectionString"];
+ connectionString = connectionString.Replace("{host}", host).Replace("{username}", username).Replace("{password}", password);
+
 
 builder.Services.AddHangfire(configuration => configuration
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
     .UseSerilogLogProvider()
-    .UseSqlServerStorage(builder.Configuration.GetSection("DBConfiguration")["ConnectionString"]));
+    .UseSqlServerStorage(connectionString));
 
 builder.Services.AddHangfireConsoleExtensions();
 builder.Services.AddHangfireServer();

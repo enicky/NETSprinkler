@@ -11,14 +11,14 @@ public class RPiDriver: IGpioDriver
 
     private byte _currentState = 0x0;
 
-    private GpioPin pinLatch;
+    private GpioPin pinLatch ;
     private GpioPin pinData;
     private GpioPin pinClock;
     
     public RPiDriver(ILogger<RPiDriver> logger)
     {
         _logger = logger;
-        /*
+        
         var gpio = new GpioController();
         pinLatch = gpio.OpenPin(22); //RCLOCK
         pinLatch.SetPinMode(PinMode.Output);
@@ -34,7 +34,7 @@ public class RPiDriver: IGpioDriver
 
 
         PulseRCLK();
-        */
+        
     }
 
     // Serial-In-Parallel-Out
@@ -103,9 +103,9 @@ public class RPiDriver: IGpioDriver
 
         _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
 
-        //WriteSIPO(_currentState);
-        //WriteSIPO((byte)i);
-        //PulseRCLK();
+        WriteSIPO(_currentState);
+        WriteSIPO((byte)i);
+        PulseRCLK();
 
         return Task.CompletedTask;
     }
@@ -118,9 +118,9 @@ public class RPiDriver: IGpioDriver
         i = i << pin;
         
         _logger.LogInformation($"[RPiDriver:ClosePin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
-        //WriteSIPO(_currentState);
-        //WriteSIPO((byte)i);
-        //PulseRCLK();
+        WriteSIPO(_currentState);
+        WriteSIPO((byte)i);
+        PulseRCLK();
 
         return Task.CompletedTask;
     }
