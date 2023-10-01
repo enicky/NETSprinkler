@@ -59,4 +59,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.ApiWorker/Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+          cache-from: type=registry,ref=neichmann/netsprinkler.apiworker:main
+          cache-to: type=inline
           
