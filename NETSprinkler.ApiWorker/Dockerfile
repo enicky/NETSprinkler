@@ -22,14 +22,9 @@ RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Release -o /app/build --no-r
 
 FROM build AS publish
 ARG TARGETPLATFORM
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-    RID=linux-x64 ; \
-    elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
-    RID=linux-arm64 ; \
-    elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then \
-    RID=linux-arm ; \
-    fi \
-    && dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish -r $RID  /p:UseAppHost=false --no-restore
+
+
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app
