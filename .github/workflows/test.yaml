@@ -1,4 +1,4 @@
-name: GitHub Actions Demo
+name: NETSprinkler Worker API Build
 run-name: NETSprinkler.WorkerApi Build
 on: [push]
 jobs:
@@ -10,6 +10,10 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}  
       DOCKER_TARGET_PLATFORM: linux/arm/v7   
     steps:
+      - name: Generate build number
+        uses: onyxmueller/build-tag-number@v1
+        with:
+          token: ${{secrets.github_token}}    
       - name: checkout code
         uses: actions/checkout@v3
       - name: Set up QEMU
@@ -29,7 +33,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: neichmann/netsprinkler.apiworker:latest
+          tags: neichmann/netsprinkler.apiworker:$BUILD_NUMBER
           file: NETSprinkler.ApiWorker/Dockerfile
           platforms: linux/amd64,linux/arm64
           
