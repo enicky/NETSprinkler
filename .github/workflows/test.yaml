@@ -3,6 +3,17 @@ run-name: NETSprinkler.WorkerApi Build
 on: [push]
 jobs:
   docker:
+    permissions:
+      actions: write
+      checks: write
+      contents: write
+      deployments: write
+      issues: write
+      packages: write
+      pull-requests: write
+      repository-projects: write
+      security-events: write
+      statuses: write
     #runs-on: [self-hosted, ARM]
     runs-on: [self-hosted, X64]
     env:      
