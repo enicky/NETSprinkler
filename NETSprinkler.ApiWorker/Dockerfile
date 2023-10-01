@@ -14,13 +14,12 @@ COPY ["NETSprinkler.Models/NETSprinkler.Models.csproj", "NETSprinkler.Models/"]
 
 RUN dotnet restore "NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj"
 COPY . .
-RUN ls -la
+
 WORKDIR "/src/NETSprinkler.ApiWorker"
-RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Release -o /app/build
-RUN ls -la /app/build
+RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app

@@ -40,7 +40,7 @@ var host = _dBConfiguration["host"];
 var username = _dBConfiguration["Username"];
 var password = _dBConfiguration["Password"];
 var connectionString = _dBConfiguration["ConnectionString"];
- connectionString = connectionString.Replace("{host}", host).Replace("{username}", username).Replace("{password}", password);
+ connectionString = connectionString!.Replace("{host}", host).Replace("{username}", username).Replace("{password}", password);
 
 
 builder.Services.AddHangfire(configuration => configuration

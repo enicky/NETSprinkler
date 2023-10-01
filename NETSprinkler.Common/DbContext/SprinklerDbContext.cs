@@ -12,9 +12,9 @@ namespace NETSprinkler.Common.DbContext;
 public class SprinklerDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     private readonly DbConfigurationOptions? _dBConfiguration = null;
-    public DbSet<Schedule> Schedules { get; set; }
-    public DbSet<ValveStatus> ValveStatus { get; set; }
-    public DbSet<SprinklerValve> SprinklerValves { get; set; }
+    public DbSet<Schedule>? Schedules { get; set; }
+    public DbSet<ValveStatus>? ValveStatus { get; set; }
+    public DbSet<SprinklerValve>? SprinklerValves { get; set; }
 
     private ILogger<SprinklerDbContext> _logger { get; set; }
 

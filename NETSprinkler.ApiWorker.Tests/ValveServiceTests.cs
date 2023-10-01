@@ -22,7 +22,12 @@ public class ValveServiceTests
         connection.Open();
         var optionsBuilder = new DbContextOptionsBuilder<SprinklerDbContext>();
         optionsBuilder.UseSqlite(connection);
-        _context = new SprinklerDbContext(optionsBuilder.Options, null);
+
+        var lf = new LoggerFactory();
+        var logger = lf.CreateLogger<SprinklerDbContext>();
+
+        
+        _context = new SprinklerDbContext(optionsBuilder.Options, null, logger);
         _context.Database.EnsureDeleted();
         _context.Database.EnsureCreated();
     }
@@ -32,7 +37,7 @@ public class ValveServiceTests
     {
         var (sut, cts, dummyGpioDriver) = GetSut();
         var existingValve = SprinklerBuilder.CreateExistingSprinkler();
-        await _context.SprinklerValves.AddAsync(existingValve, cts.Token);
+        await _context.SprinklerValves!.AddAsync(existingValve, cts.Token);
         await _context.SaveChangesAsync(cts.Token);
         await sut.StartAsync(1);
 
@@ -51,7 +56,7 @@ public class ValveServiceTests
     {
         var (sut, cts, dummyGpioDriver) = GetSut();
         var existingValve = SprinklerBuilder.CreateExistingSprinkler(isOpen: true);
-        await _context.SprinklerValves.AddAsync(existingValve, cts.Token);
+        await _context.SprinklerValves!.AddAsync(existingValve, cts.Token);
         await _context.SaveChangesAsync(cts.Token);
         await sut.StopAsync(existingValve.Id);
 
@@ -71,7 +76,7 @@ public class ValveServiceTests
     {
         var (sut, cts, _) = GetValveSut();
         var entity = SprinklerBuilder.CreateExistingSprinkler();
-        await _context.SprinklerValves.AddAsync(entity, cts.Token);
+        await _context.SprinklerValves!.AddAsync(entity, cts.Token);
         await _context.SaveChangesAsync(cts.Token);
         var v = await sut.GetSprinklerValveById(1);
         Assert.NotNull(v);
