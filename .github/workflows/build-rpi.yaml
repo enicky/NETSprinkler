@@ -47,7 +47,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.ApiWorker/Dockerfile
-          platforms: linux/arm/v7
           cache-from: type=registry,ref=neichmann/netsprinkler.apiworker:main
           cache-to: type=inline
           
