@@ -21,12 +21,24 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}  
       DOCKER_TARGET_PLATFORM: linux/arm/v7   
     steps:
-      - name: Generate build number
-        uses: onyxmueller/build-tag-number@v1
-        with:
-          token: ${{secrets.github_token}}    
       - name: checkout code
         uses: actions/checkout@v3
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            neichmann/netsprinkler.apiworker
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha    
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -43,8 +55,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: true
-          tags: neichmann/netsprinkler.apiworker:$BUILD_NUMBER
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.ApiWorker/Dockerfile
           platforms: linux/amd64,linux/arm64
           
