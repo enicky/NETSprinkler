@@ -20,13 +20,14 @@ public class RPiDriver: IGpioDriver
         _logger = logger;
         
         var gpio = new GpioController();
-        pinLatch = gpio.OpenPin(22); //RCLOCK
-        pinLatch.SetPinMode(PinMode.Output);
-        pinData = gpio.OpenPin(27);
-        pinData.SetPinMode(PinMode.Output);
-        pinClock = gpio.OpenPin(4);
-        pinClock.SetPinMode(PinMode.Output);
+        var nbrScheme = gpio.NumberingScheme;
+        _logger.LogInformation($"[] numberingschema {nbrScheme}");
 
+
+            pinLatch = gpio.OpenPin(22, PinMode.Output); //RCLOCK
+        pinData = gpio.OpenPin(27, PinMode.Output);
+        pinClock = gpio.OpenPin(4, PinMode.Output);
+        
 
         pinLatch.Write(PinValue.Low);
         pinClock.Write(PinValue.Low);
@@ -41,10 +42,12 @@ public class RPiDriver: IGpioDriver
     private void WriteSIPO(byte b)
     {
 
-        for(var i = 0; i < 8; i++)
+        for(var i = 7; i >=0; i--)
         {
+            pinClock.Write(PinValue.Low);
             pinData.Write((b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low);
-            PulseRCLK();
+            pinClock.Write(PinValue.High);
+            //PulseRCLK();
         }
     }
 
@@ -103,9 +106,18 @@ public class RPiDriver: IGpioDriver
 
         _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
 
-        WriteSIPO(_currentState);
+        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.Low);
+        pinClock.Write(PinValue.High);
+
+
+        //WriteSIPO(_currentState);
         WriteSIPO((byte)i);
-        PulseRCLK();
+        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.High);
+        pinClock.Write(PinValue.High);
+
+        //PulseRCLK();
 
         return Task.CompletedTask;
     }
@@ -118,9 +130,21 @@ public class RPiDriver: IGpioDriver
         i = i << pin;
         
         _logger.LogInformation($"[RPiDriver:ClosePin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
-        WriteSIPO(_currentState);
+        //WriteSIPO(_currentState);
+        //WriteSIPO((byte)i);
+        //PulseRCLK();
+
+        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.Low);
+        pinClock.Write(PinValue.High);
+
+
+        //WriteSIPO(_currentState);
         WriteSIPO((byte)i);
-        PulseRCLK();
+        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.High);
+        pinClock.Write(PinValue.High);
+
 
         return Task.CompletedTask;
     }
