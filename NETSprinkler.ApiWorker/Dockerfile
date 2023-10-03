@@ -18,7 +18,7 @@ COPY . .
 WORKDIR "/src/NETSprinkler.ApiWorker"
 
 
-RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug -o /app/build --no-restore
+RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore
 
 FROM build AS publish
 ARG TARGETPLATFORM
