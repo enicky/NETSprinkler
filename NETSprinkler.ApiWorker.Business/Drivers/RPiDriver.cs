@@ -42,7 +42,7 @@ public class RPiDriver: IGpioDriver
     private void WriteSIPO(byte b)
     {
 
-        for(var i = 7; i >=0; i--)
+        for(var i = 0; i < 8; i++)
         {
             pinClock.Write(PinValue.Low);
             pinData.Write((b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low);
@@ -112,7 +112,7 @@ public class RPiDriver: IGpioDriver
 
 
         //WriteSIPO(_currentState);
-        WriteSIPO((byte)i);
+        WriteSIPO(_currentState);
         pinClock.Write(PinValue.Low);
         pinLatch.Write(PinValue.High);
         pinClock.Write(PinValue.High);
@@ -140,7 +140,7 @@ public class RPiDriver: IGpioDriver
 
 
         //WriteSIPO(_currentState);
-        WriteSIPO((byte)i);
+        WriteSIPO(_currentState);
         pinClock.Write(PinValue.Low);
         pinLatch.Write(PinValue.High);
         pinClock.Write(PinValue.High);
