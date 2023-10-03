@@ -44,13 +44,13 @@ public class RPiDriver: IGpioDriver
         for(var i = 0; i < 8; i++)
         {
             var pinValue = (b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low;
-            _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}"); 
-            
+            _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}");
+            pinClock.Write(PinValue.Low);
             pinData.Write(pinValue);
-
+            pinClock.Write(PinValue.High);
             //pinClock.Write(PinValue.Low);
             //pinClock.Write(PinValue.High);
-            PulseSerialClock();
+            //PulseSerialClock();
         }
     }
 
@@ -112,14 +112,21 @@ public class RPiDriver: IGpioDriver
 
         _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {Convert.ToString(i, 2).PadLeft(8, '0')} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
         _logger.LogInformation("[OpenPin] Start pulling Latch low");
-        pinLatch.Write(PinValue.Low);
+        //pinLatch.Write(PinValue.Low);
         _logger.LogInformation("[OpenPin] Finished pulling latch low");
-
+        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.Low);
+        pinClock.Write(PinValue.High);
 
         WriteSIPO(_currentState);
-        
-        _logger.LogInformation("[OpenPin] Start pulling Latch High");
+
+        pinClock.Write(PinValue.Low);
         pinLatch.Write(PinValue.High);
+        pinClock.Write(PinValue.High);
+
+
+        _logger.LogInformation("[OpenPin] Start pulling Latch High");
+//        pinLatch.Write(PinValue.High);
         _logger.LogInformation("[OpenPin] Finished pulling Latch High");
 
 
