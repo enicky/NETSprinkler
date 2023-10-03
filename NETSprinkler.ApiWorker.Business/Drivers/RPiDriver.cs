@@ -27,7 +27,6 @@ public class RPiDriver: IGpioDriver
         pinLatch = gpio.OpenPin(22, PinMode.Output); //RCLOCK
         pinData = gpio.OpenPin(27, PinMode.Output);
         pinClock = gpio.OpenPin(4, PinMode.Output);
-        
 
         pinLatch.Write(PinValue.Low);
         pinClock.Write(PinValue.Low);
@@ -59,10 +58,8 @@ public class RPiDriver: IGpioDriver
     void PulseLatch()
     {
         _logger.LogInformation("[] Start PulseLatch");
-        //pinLatch.Write(PinValue.High);
-        //pinLatch.Write(PinValue.Low);
-        pinClock.Write(PinValue.High);
-        pinClock.Write(PinValue.Low);
+        pinLatch.Write(PinValue.High);
+        pinLatch.Write(PinValue.Low);
         _logger.LogInformation("[] Finished PulseLatch");
     }
 
@@ -70,10 +67,8 @@ public class RPiDriver: IGpioDriver
     void PulseSerialClock()
     {
         _logger.LogInformation("[] Start Pulse Serial Clock");
-        //pinClock.Write(PinValue.High);
-        //pinClock.Write(PinValue.Low);
-        pinLatch.Write(PinValue.High);
-        pinLatch.Write(PinValue.Low);
+        pinClock.Write(PinValue.High);
+        pinClock.Write(PinValue.Low);
         _logger.LogInformation("[] Finished Pulse Serial Clock");
     }
 
