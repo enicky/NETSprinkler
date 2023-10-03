@@ -44,8 +44,10 @@ public class RPiDriver: IGpioDriver
 
         for(var i = 0; i < 8; i++)
         {
+            var pinValue = (b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low;
+            _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}");
             pinClock.Write(PinValue.Low);
-            pinData.Write((b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low);
+            pinData.Write(pinValue);
             pinClock.Write(PinValue.High);
             //PulseRCLK();
         }
@@ -104,7 +106,7 @@ public class RPiDriver: IGpioDriver
         
         i = i << pin;
 
-        _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
+        _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {Convert.ToString(i, 2).PadLeft(8, '0')} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
 
         pinClock.Write(PinValue.Low);
         pinLatch.Write(PinValue.Low);
@@ -129,7 +131,7 @@ public class RPiDriver: IGpioDriver
         int i = 0x01;
         i = i << pin;
         
-        _logger.LogInformation($"[RPiDriver:ClosePin] Opening pin {pin} and i value {i} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
+        _logger.LogInformation($"[RPiDriver:ClosePin] Opening pin {pin} and i value {Convert.ToString(i, 2).PadLeft(8, '0')} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
         //WriteSIPO(_currentState);
         //WriteSIPO((byte)i);
         //PulseRCLK();
