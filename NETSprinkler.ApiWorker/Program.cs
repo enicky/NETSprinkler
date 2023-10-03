@@ -6,6 +6,7 @@ using NETSprinkler.ApiWorker.Business.Helpers;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
+using NETSprinkler.ApiWorker;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional:true, reloadOnChange:true)
@@ -55,7 +56,12 @@ builder.Services.AddHangfireServer();
 builder.Services.AddSerilog();
 
 var app = builder.Build();
-app.UseHangfireDashboard();
+var options = new DashboardOptions()
+{
+    Authorization = new[] { new DashboardNoAuthorizationFilter() }
+
+};
+app.UseHangfireDashboard(options: options);
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

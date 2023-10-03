@@ -24,7 +24,7 @@ FROM build AS publish
 ARG TARGETPLATFORM
 
 
-RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Debug -o /app/publish /p:UseAppHost=false --no-restore
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
 
 FROM base AS final
 WORKDIR /app
