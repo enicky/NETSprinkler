@@ -24,7 +24,7 @@ public class RPiDriver: IGpioDriver
         _logger.LogInformation($"[] numberingschema {nbrScheme}");
 
 
-            pinLatch = gpio.OpenPin(22, PinMode.Output); //RCLOCK
+        pinLatch = gpio.OpenPin(22, PinMode.Output); //RCLOCK
         pinData = gpio.OpenPin(27, PinMode.Output);
         pinClock = gpio.OpenPin(4, PinMode.Output);
         
@@ -34,37 +34,43 @@ public class RPiDriver: IGpioDriver
         pinData.Write(PinValue.Low);
 
 
-        PulseRCLK();
+        PulseLatch();
         
     }
 
     // Serial-In-Parallel-Out
     private void WriteSIPO(byte b)
     {
-
+        _logger.LogInformation($"[WriteSIPO] Start Looping over byte {b}");
         for(var i = 0; i < 8; i++)
         {
             var pinValue = (b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low;
-            _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}");
-            pinClock.Write(PinValue.Low);
+            _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}"); 
+            
             pinData.Write(pinValue);
-            pinClock.Write(PinValue.High);
-            //PulseRCLK();
+
+            //pinClock.Write(PinValue.Low);
+            //pinClock.Write(PinValue.High);
+            PulseSerialClock();
         }
     }
 
     // pulse Register Clock / Latch Clock
-    void PulseRCLK()
+    void PulseLatch()
     {
-        pinLatch.Write(PinValue.Low);
+        _logger.LogInformation("[] Start PulseLatch");
         pinLatch.Write(PinValue.High);
+        pinLatch.Write(PinValue.Low);
+        _logger.LogInformation("[] Finished PulseLatch");
     }
 
     // Pulse Serial Clock
-    void PulseSCLK()
+    void PulseSerialClock()
     {
-        pinClock.Write(PinValue.Low);
+        _logger.LogInformation("[] Start Pulse Serial Clock");
         pinClock.Write(PinValue.High);
+        pinClock.Write(PinValue.Low);
+        _logger.LogInformation("[] Finished Pulse Serial Clock");
     }
 
     /*
@@ -97,29 +103,38 @@ public class RPiDriver: IGpioDriver
          return Task.CompletedTask;
         */
 
-        
+        _logger.LogInformation($"[OpenPin] Start opening on pin {pin}");
         _currentState = _currentState.SetBit(pin);
 
-
-
+        
         int i = 0x01;
         
         i = i << pin;
 
         _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {Convert.ToString(i, 2).PadLeft(8, '0')} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
-
-        pinClock.Write(PinValue.Low);
+        _logger.LogInformation("[OpenPin] Start pulling Latch low");
         pinLatch.Write(PinValue.Low);
-        pinClock.Write(PinValue.High);
+        _logger.LogInformation("[OpenPin] Finished pulling latch low");
+
+
+        //pinClock.Write(PinValue.Low);
+        //pinLatch.Write(PinValue.Low);
+        //pinClock.Write(PinValue.High);
 
 
         //WriteSIPO(_currentState);
-        WriteSIPO(_currentState);
-        pinClock.Write(PinValue.Low);
-        pinLatch.Write(PinValue.High);
-        pinClock.Write(PinValue.High);
 
-        //PulseRCLK();
+        WriteSIPO(_currentState);
+        //pinClock.Write(PinValue.Low);
+        //pinLatch.Write(PinValue.High);
+        //pinClock.Write(PinValue.High);
+
+        //PulseLatch();
+
+        _logger.LogInformation("[OpenPin] Start pulling Latch High");
+        pinLatch.Write(PinValue.High);
+        _logger.LogInformation("[OpenPin] Finished pulling Latch High");
+
 
         return Task.CompletedTask;
     }
@@ -136,16 +151,17 @@ public class RPiDriver: IGpioDriver
         //WriteSIPO((byte)i);
         //PulseRCLK();
 
-        pinClock.Write(PinValue.Low);
-        pinLatch.Write(PinValue.Low);
-        pinClock.Write(PinValue.High);
+        //pinClock.Write(PinValue.Low);
+        //pinLatch.Write(PinValue.Low);
+        //pinClock.Write(PinValue.High);
 
 
         //WriteSIPO(_currentState);
         WriteSIPO(_currentState);
-        pinClock.Write(PinValue.Low);
-        pinLatch.Write(PinValue.High);
-        pinClock.Write(PinValue.High);
+        PulseLatch();
+        //pinClock.Write(PinValue.Low);
+        //pinLatch.Write(PinValue.High);
+        //pinClock.Write(PinValue.High);
 
 
         return Task.CompletedTask;
