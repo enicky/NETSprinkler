@@ -3,14 +3,13 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.NETSprinkler.Worker PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.ItemProperties.Api.NETSprinkler.Api PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
   <MonoDevelop.Ide.ItemProperties.ApiWorker.NETSprinkler.ApiWorker PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="NETSprinkler.ApiWorker/Dockerfile">
+  <MonoDevelop.Ide.Workbench ActiveDocument="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs">
     <Files>
-      <File FileName="NETSprinkler.Common/DbContext/SprinklerDbContext.cs" Line="39" Column="42" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" Line="31" Column="1" />
+      <File FileName="NETSprinkler.Common/DbContext/SprinklerDbContext.cs" Line="18" Column="1" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" Line="42" Column="41" />
       <File FileName="NETSprinkler.ApiWorker/appsettings.json" Line="4" Column="21" />
-      <File FileName="NETSprinkler.ApiWorker/Program.cs" Line="58" Column="28" />
+      <File FileName="NETSprinkler.ApiWorker/Program.cs" Line="64" Column="42" />
       <File FileName="NETSprinkler.Common/DbContext/Configuration/DBConfigurationOptions.cs" Line="3" Column="14" />
       <File FileName="NETSprinkler.Api/appSettings.json" Line="14" Column="1" />
       <File FileName="NETSprinkler.Api/appsettings.Development.json" Line="3" Column="46" />
@@ -23,11 +22,19 @@
       <File FileName="NETSprinkler.Common/Repositories/RepositoryAsync.cs" Line="31" Column="1" />
       <File FileName="NETSprinkler.Common/DbContext/IUnitOfWork.cs" Line="5" Column="24" />
       <File FileName="NETSprinkler.Common/DbContext/UnitOfWork.cs" Line="13" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" Line="36" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Sprinkler/SprinklerService.cs" Line="24" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/ValveService.cs" Line="35" Column="1" />
-      <File FileName="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" Line="123" Column="9" />
-      <File FileName="NETSprinkler.ApiWorker/Dockerfile" Line="23" Column="111" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" Line="36" Column="40" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Sprinkler/SprinklerService.cs" Line="24" Column="34" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/ValveService.cs" Line="35" Column="31" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" Line="124" Column="37" />
+      <File FileName="NETSprinkler.ApiWorker/Dockerfile" Line="21" Column="59" />
+      <File FileName="NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" Line="10" Column="69" />
+      <File FileName="NETSprinkler.Common/NETSprinkler.Common.csproj" Line="26" Column="87" />
+      <File FileName="NETSprinkler.ApiWorker.Tests/ValveServiceTests.cs" Line="79" Column="40" />
+      <File FileName="NETSprinkler.ApiWorker/Controllers/UpdateScheduleController.cs" Line="35" Column="46" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Scheduler/ISchedulerService.cs" Line="7" Column="19" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Sprinkler/ISprinklerService.cs" Line="5" Column="14" />
+      <File FileName="NETSprinkler.ApiWorker.Business/Services/Valves/IValveService.cs" Line="8" Column="10" />
+      <File FileName="NETSprinkler.ApiWorker/DashboardNoAuthorizationFilter.cs" Line="15" Column="25" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -41,13 +48,16 @@
               </Node>
             </Node>
             <Node name="ApiWorker">
-              <Node name="NETSprinkler.ApiWorker" selected="True">
+              <Node name="NETSprinkler.ApiWorker">
+                <Node name="Controllers" expanded="True" />
+              </Node>
+              <Node name="NETSprinkler.ApiWorker.Business">
                 <Node name="Dependencies" expanded="True">
                   <Node name="PackageDependencies" expanded="True" />
                 </Node>
-              </Node>
-              <Node name="NETSprinkler.ApiWorker.Business" expanded="True">
-                <Node name="Drivers" expanded="True" />
+                <Node name="Drivers">
+                  <Node name="RPiDriver.cs" selected="True" />
+                </Node>
                 <Node name="Jobs" expanded="True" />
                 <Node name="Services" expanded="True">
                   <Node name="Scheduler" expanded="True" />
@@ -55,26 +65,7 @@
                   <Node name="Valves" expanded="True" />
                 </Node>
               </Node>
-            </Node>
-            <Node name="Common">
-              <Node name="NETSprinkler.Common" expanded="True">
-                <Node name="DbContext" expanded="True">
-                  <Node name="Configuration" expanded="True" />
-                </Node>
-                <Node name="Migrations" expanded="True" />
-                <Node name="Repositories" expanded="True" />
-                <Node name="Services" expanded="True" />
-              </Node>
-              <Node name="NETSprinkler.Contracts" expanded="True">
-                <Node name="Entity" expanded="True">
-                  <Node name="Valve" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="NETSprinkler.Models" expanded="True">
-                <Node name="Entity" expanded="True">
-                  <Node name="Schedule" expanded="True" />
-                </Node>
-              </Node>
+              <Node name="NETSprinkler.ApiWorker.Tests" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -93,8 +84,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" relfile="NETSprinkler.ApiWorker.Business/Services/Scheduler/SchedulerService.cs" line="31" column="1" />
-      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" relfile="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" line="96" column="1" />
-      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" relfile="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" line="116" column="1" />
+      <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" relfile="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" line="106" column="1" />
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" relfile="NETSprinkler.ApiWorker.Business/Drivers/RPiDriver.cs" line="22" column="1" />
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" relfile="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" line="36" column="1" />
       <Breakpoint file="/Users/nickyeichmann/RiderProjects/NETSprinkler/NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" relfile="NETSprinkler.ApiWorker.Business/Jobs/RunSprinklerJob.cs" line="40" column="1" />

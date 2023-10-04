@@ -31,7 +31,7 @@ public class RPiDriver: IGpioDriver
         pinLatch.Write(PinValue.Low);
         pinClock.Write(PinValue.Low);
         pinData.Write(PinValue.Low);
-
+        
 
         PulseLatch();
         
@@ -110,6 +110,11 @@ public class RPiDriver: IGpioDriver
         
         i = i << pin;
 
+
+        pinClock.SetPinMode(PinMode.Output);
+        pinData.SetPinMode(PinMode.Output);
+        pinLatch.SetPinMode(PinMode.Output);
+
         _logger.LogInformation($"[RPiDriver:OpenPin] Opening pin {pin} and i value {Convert.ToString(i, 2).PadLeft(8, '0')} and HEX {Convert.ToString(_currentState, 2).PadLeft(8, '0')}");
         _logger.LogInformation("[OpenPin] Start pulling Latch low");
         //pinLatch.Write(PinValue.Low);
@@ -129,7 +134,9 @@ public class RPiDriver: IGpioDriver
 //        pinLatch.Write(PinValue.High);
         _logger.LogInformation("[OpenPin] Finished pulling Latch High");
 
-
+        pinClock.SetPinMode(PinMode.Input);
+        pinData.SetPinMode(PinMode.Input);
+        pinLatch.SetPinMode(PinMode.Input);
         return Task.CompletedTask;
     }
 
