@@ -143,6 +143,10 @@ public class RPiDriver: IGpioDriver
     public Task ClosePin(int pin)
     {
 
+        pinClock.SetPinMode(PinMode.Output);
+        pinData.SetPinMode(PinMode.Output);
+        pinLatch.SetPinMode(PinMode.Output);
+
         _currentState = _currentState.UnsetBit(pin);
         int i = 0x01;
         i = i << pin;
@@ -151,7 +155,9 @@ public class RPiDriver: IGpioDriver
         WriteSIPO(_currentState);
         PulseLatch();
 
-
+        pinClock.SetPinMode(PinMode.Input);
+        pinData.SetPinMode(PinMode.Input);
+        pinLatch.SetPinMode(PinMode.Input);
         return Task.CompletedTask;
     }
 }
