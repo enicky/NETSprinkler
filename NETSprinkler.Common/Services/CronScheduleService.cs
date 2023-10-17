@@ -2,7 +2,7 @@ using NETSprinkler.Models.Entity.Schedule;
 
 namespace NETSprinkler.Common.Services;
 
-public class CronScheduleService: ICronScheduleService
+public class CronScheduleService : ICronScheduleService
 {
     public Task<string> CreateCronString(Schedule registeredSchedule, bool isEndCron = false)
     {
@@ -16,5 +16,12 @@ public class CronScheduleService: ICronScheduleService
                 $"0 {registeredSchedule.EndMinute} {registeredSchedule.EndHour} * * {string.Join(',', registeredSchedule.DaysToRun.Select(q => (int)q))}";
         }
         return Task.FromResult(cronString);
+    }
+
+    public async Task<(string, string)> GenerateCronStrings(Schedule registeredSchedule)
+    {
+        var startCronString = await CreateCronString(registeredSchedule);
+        var endCronString = await CreateCronString(registeredSchedule, true);
+        return (startCronString, endCronString);
     }
 }

@@ -21,9 +21,17 @@ public class UpdateScheduleController: Controller
     }
 
     [HttpPost("CreateSchedule")]
-    public async Task CreateSchedule(CancellationToken cancellationToken, [FromBody] int id)
+    public async Task<OkResult> CreateSchedule(CancellationToken cancellationToken, [FromBody] int id)
     {
-        await _schedulerService.CreateSchedule(id);
+        await _schedulerService.CreateSchedule(id, cancellationToken);
+        return new OkResult();
+    }
+
+    [HttpDelete("DeleteSchedule")]
+    public async Task<OkResult> DeleteSchedule(CancellationToken cancellation, int id)
+    {
+        await _schedulerService.DeleteSchedule(id, cancellation);
+        return new OkResult();
     }
 
     [HttpPost("test")]

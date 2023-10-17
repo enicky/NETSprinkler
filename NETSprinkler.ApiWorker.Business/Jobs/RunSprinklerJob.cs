@@ -1,5 +1,6 @@
 using Hangfire.Console.Extensions;
 using Microsoft.Extensions.Logging;
+using NETSprinkler.ApiWorker.Business.MQTT;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
@@ -13,16 +14,20 @@ public class RunSprinklerJob
     private readonly ISchedulerService _schedulerService;
     private readonly ISprinklerService _sprinklerService;
     private readonly IValveService _valveService;
+    private readonly IMqttService _mqttService;
 
     public RunSprinklerJob(ILogger<RunSprinklerJob> logger, IJobManager jobManager, ISchedulerService schedulerService,
-        ISprinklerService sprinklerService, IValveService valveService)
+        ISprinklerService sprinklerService, IValveService valveService, MqttClientServiceProvider mqttServiceProvider)
     {
         _logger = logger;
         _jobManager = jobManager;
         _schedulerService = schedulerService;
         _sprinklerService = sprinklerService;
         _valveService = valveService;
+        _mqttService = mqttServiceProvider.MqttService;
     }
+
+    
 
     public async Task RunAsync(int jobId, bool isStart = true)
     {

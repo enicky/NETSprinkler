@@ -7,14 +7,34 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
 using NETSprinkler.ApiWorker;
+using NETSprinkler.ApiWorker.Business.MQTT;
+using Microsoft.Extensions.Options;
+using NETSprinkler.Common.Config.Mqtt;
+using NETSprinkler.Common.Config.Gpio;
+using NETSprinkler.ApiWorker.Business.Extensions;
+
+void SetConfiguration(IConfigurationBuilder builder)
+    => builder.AddUserSecrets<Program>()
+        .AddEnvironmentVariables()
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true);
+
+var configurationBuilder = new ConfigurationBuilder();
+SetConfiguration(configurationBuilder);
+var configuration = configurationBuilder.Build();
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("appsettings.json", optional:true, reloadOnChange:true)
-    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
-    .AddEnvironmentVariables();
+builder.Configuration.AddConfiguration(configuration);
+
+//builder.Configuration.AddJsonFile("appsettings.json", optional:true, reloadOnChange:true)
+//    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+//    .AddEnvironmentVariables();
 // Add services to the container.
 using var log = new LoggerConfiguration() 
-    .ReadFrom.Configuration(builder.Configuration)
+    .ReadFrom.Configuration(configuration)
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning) 
     .CreateLogger();
 Log.Logger = log; //new 
@@ -24,6 +44,17 @@ Log.Logger = log; //new
 builder.Services.AddLogging(lb => lb.SetMinimumLevel(LogLevel.Warning).AddConsole().AddSerilog());
 builder.Logging.AddFilter<SerilogLoggerProvider>(null, LogLevel.Warning);
 builder.Services.Configure<DbConfigurationOptions>(builder.Configuration.GetSection("DBConfiguration"));
+builder.Services.Configure<MqttConfigurationOptions>(builder.Configuration.GetSection("Mqtt"));
+builder.Services.Configure<GpioConfigurationOptions>(builder.Configuration.GetSection("GPIO"));
+
+
+
+//var mqttService = new MqttService(mqttConfiguration!.Value, builder.Services.BuildServiceProvider().GetService<ILogger<MqttService>>());
+//await mqttService.StartMqttClient();
+
+builder.Services.AddMqttClientHostedService();
+
+//builder.Services.AddSingleton<IMqttService, MqttService>();
 
 builder.Services.AddDbContext<SprinklerDbContext>();
 builder.Services.AddEntityFrameworkSqlServer();

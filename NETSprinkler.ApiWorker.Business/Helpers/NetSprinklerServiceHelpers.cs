@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NETSprinkler.ApiWorker.Business.Drivers;
 using NETSprinkler.ApiWorker.Business.Jobs;
+using NETSprinkler.ApiWorker.Business.MQTT;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
@@ -23,7 +24,7 @@ public static class NetSprinklerServiceHelpers
         s.AddScoped<ISchedulerService, SchedulerService>();
         s.AddScoped(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
         s.AddScoped<IValveService, ValveService>();
-        s.AddScoped<IGpioDriver, RPiDriver>();
+        s.AddScoped<IGpioDriver, RPiDriver>();  
         //s.AddScoped<IGpioDriver, DummyDriver>();
         return s;
     }

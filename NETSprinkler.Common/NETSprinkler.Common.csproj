@@ -12,6 +12,9 @@
     <ItemGroup>
       <Folder Include="Repositories\" />
       <Folder Include="Extensions\" />
+      <Folder Include="Config\" />
+      <Folder Include="Config\Mqtt\" />
+      <Folder Include="Config\Gpio\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -33,5 +36,8 @@
 
     <ItemGroup>
       <None Remove="Extensions\" />
+      <None Remove="Config\" />
+      <None Remove="Config\Mqtt\" />
+      <None Remove="Config\Gpio\" />
     </ItemGroup>
 </Project>

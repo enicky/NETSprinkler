@@ -31,18 +31,19 @@ public class SchedulerService : ServiceAsync<Schedule>, ISchedulerService
         var registeredSchedule = await GetById(id);// _repositoryAsync.GetById(id);
         if (registeredSchedule == null) throw new InvalidScheduleIdException();
         _logger.LogInformation("[SchedulerService:CreateSchedule] Start creating a schedule based on id {Id}", id);
-        var startCronString = await _cronScheduleService.CreateCronString(registeredSchedule);
-        var endCronString = await _cronScheduleService.CreateCronString(registeredSchedule, true);
-        _logger.LogInformation("[SchedulerService:CreateSchedule] Start Schedule crontab - {StartCronString} - ValveId {ValveId}", startCronString, registeredSchedule.SprinklerValveId);
-        _logger.LogInformation("[SchedulerService:CreateSchedule] End Schedule crontab - {EndCronString} - ValveId {ValveId}", endCronString, registeredSchedule.SprinklerValveId);
-        _jobManager.AddOrUpdate<RunSprinklerJob>($"job_{id}_start", x => x.RunAsync(id, true), startCronString, new RecurringJobOptions()
-        {
-            TimeZone = TimeZoneInfo.Local
-        });
-        _jobManager.AddOrUpdate<RunSprinklerJob>($"job_{id}_end", x => x.RunAsync(id, false), endCronString, new RecurringJobOptions()
-        {
-            TimeZone = TimeZoneInfo.Local
-        });
+        AddRecurringJobs(GenerateJobIds(id), id, await _cronScheduleService.GenerateCronStrings(registeredSchedule));
+    }
+
+    
+    public async Task DeleteSchedule(int id, CancellationToken cancellation = default)
+    {
+        var registeredSchedule = await GetById(id);
+        if (registeredSchedule == null) throw new InvalidScheduleIdException();
+        _logger.LogInformation($"[SchedulerService:DeleteSchedule] Start deleting schedule based on id {id}");
+        var (startJobId, endJobId) = GenerateJobIds(id);
+        _jobManager.RemoveIfExists(startJobId);
+        _jobManager.RemoveIfExists(endJobId);
+        _logger.LogInformation($"[SchedulerService:DeleteSchedule] Finished removing schedules based on id {id}");
     }
 
     public Task<Schedule?> GetScheduleById(int id)
@@ -52,4 +53,26 @@ public class SchedulerService : ServiceAsync<Schedule>, ISchedulerService
         _logger.LogInformation("[SchedulerService:GetScheduleById] retrieved Schedule {Id}", id);
         return res;
     }
+
+    private static (string, string) GenerateJobIds(int id)
+    {
+        return ($"job_{id}_start", $"job_{id}_end");
+    }
+
+    private void AddRecurringJobs((string, string) jobIds, int id, (string, string) cronStrings)
+    {
+        _logger.LogInformation("[SchedulerService:CreateSchedule] Start Schedule crontab - {StartCronString} - ValveId {ValveId}", cronStrings.Item1, id);
+        _logger.LogInformation("[SchedulerService:CreateSchedule] End Schedule crontab - {EndCronString} - ValveId {ValveId}", cronStrings.Item2, id);
+
+        _jobManager.AddOrUpdate<RunSprinklerJob>(jobIds.Item1, x => x.RunAsync(id, true), cronStrings.Item1, new RecurringJobOptions()
+        {
+            TimeZone = TimeZoneInfo.Local
+        });
+        _jobManager.AddOrUpdate<RunSprinklerJob>(jobIds.Item2, x => x.RunAsync(id, false), cronStrings.Item2, new RecurringJobOptions()
+        {
+            TimeZone = TimeZoneInfo.Local
+        });
+
+    }
+
 }

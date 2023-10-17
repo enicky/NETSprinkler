@@ -9,7 +9,7 @@
 
     <ItemGroup>
       <PackageReference Include="Hangfire" Version="1.8.5" />
-      <PackageReference Include="Hangfire.Console.Extensions" Version="1.0.5" />
+      <PackageReference Include="Hangfire.Console.Extensions" Version="1.1.0" />
       <PackageReference Include="Iot.Device.Bindings" Version="3.0.0" />
       <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0-preview3.23201.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.7.23375.6" />
@@ -18,6 +18,7 @@
       <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
       <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
       <PackageReference Include="System.Device.Gpio" Version="3.0.0" />
+      <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="4.3.1.873" />
     </ItemGroup>
 
 
@@ -53,4 +54,12 @@
 
 
 
+    <ItemGroup>
+      <None Remove="MQTT\" />
+      <None Remove="Extensions\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="MQTT\" />
+      <Folder Include="Extensions\" />
+    </ItemGroup>
 </Project>

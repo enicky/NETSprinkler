@@ -6,6 +6,7 @@ using NETSprinkler.Contracts.Entity.Valve;
 namespace NETSprinkler.Controllers;
 
 [ApiController]
+[Route("api/[controller]")]
 public class ValveController: Controller
 {
     private readonly ILogger<ValveController> _logger;
@@ -34,5 +35,19 @@ public class ValveController: Controller
             Success = true,
             ValveId = createdSprinkler.Id
         };
+    }
+
+    [HttpGet("GetAllValves")]
+    public List<SprinklerValveDto> GetAllValves(CancellationToken token)
+    {
+        var allValves = _valveService.GetAll();
+        return allValves.ToList();
+    }
+
+    [HttpDelete("DeleteValve")]
+    public async Task<DeleteValveResponseDto> DeleteValve(CancellationToken token, int id)
+    {
+        await _valveService.DeleteAsync(id);
+        return new DeleteValveResponseDto { Success = true };
     }
 }
