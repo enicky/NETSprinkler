@@ -29,7 +29,7 @@ public class SprinklerService: ISprinklerService
         await _mqttService.SendStatus(new SprinklerStatus
         {
             SprinklerId = sprinklerValveId,
-            Status = 1
+            Status = SprinklerState.Open
         });
         await _unitOfWork.SaveChangesAsync();
     }
@@ -41,7 +41,7 @@ public class SprinklerService: ISprinklerService
         await _mqttService.SendStatus(new SprinklerStatus
         {
             SprinklerId = sprinklerValveId,
-            Status = 0
+            Status = SprinklerState.Closed
         });
         await _unitOfWork.SaveChangesAsync();
     }

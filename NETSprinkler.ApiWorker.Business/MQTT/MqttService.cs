@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Extensions.ManagedClient;
 using MQTTnet.Packets;
+using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
+using NETSprinkler.Contracts.Entity.Mqtt;
 using NETSprinkler.Models.Entity.Valve;
 using Newtonsoft.Json;
 
@@ -13,16 +16,18 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
         private readonly IManagedMqttClient _managedMqttClient;
         private readonly MqttClientOptions _options;
         private readonly ILogger<MqttService> _logger;
-
+        private readonly IServiceScopeFactory _scopeFactory;
+        
         private static string MqttSprinklerStatusTopic = "sprinkler/valve/status";
-        private static string MqttSprinklerCommandStart = "sprinkler/valve/cmd/start";
+        private const string MqttSprinklerCommandStart = "sprinkler/valve/cmd/start";
 
         
 
-        public MqttService(MqttClientOptions options, ILogger<MqttService> logger)
+        public MqttService(MqttClientOptions options, ILogger<MqttService> logger, IServiceScopeFactory scopeFactory)
 		{
             _options = options;
             _logger = logger;
+            this._scopeFactory = scopeFactory;
             var mqttFactory = new MqttFactory();
 			_managedMqttClient = mqttFactory.CreateManagedMqttClient();
 
@@ -35,14 +40,34 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
             var topicFilter = new MqttTopicFilterBuilder()
                 .WithTopic(MqttSprinklerCommandStart)
                 .Build();
-            _managedMqttClient.ApplicationMessageReceivedAsync +=  (MqttApplicationMessageReceivedEventArgs arg) =>
+            _managedMqttClient.ApplicationMessageReceivedAsync += async (MqttApplicationMessageReceivedEventArgs arg) =>
             {
                 var topic = arg.ApplicationMessage.Topic;
+
+                switch (topic)
+                {
+                    case MqttSprinklerCommandStart:
+                        await ProcessStartSprinklerCommand(arg.ApplicationMessage.ConvertPayloadToString());
+                        _logger.LogInformation($"[Mqtt] Start ...");
+                        break;
+                };
                 _logger.LogInformation($"Received message on topic {topic} -> {arg.ApplicationMessage.ConvertPayloadToString()}");        
-                return Task.CompletedTask;
+                
             };
             await _managedMqttClient.SubscribeAsync(new List<MqttTopicFilter> { topicFilter});
 
+        }
+
+        private async Task ProcessStartSprinklerCommand(string content)
+        {
+            
+            var request = JsonConvert.DeserializeObject<MqttStartSprinklerRequest>(content);
+            _logger.LogDebug($"[MqttService:ProcessStartSprinklerCommand] Starting sprinkler with id {request.SprinklerId}");
+            using var scope = _scopeFactory.CreateAsyncScope();
+            var _sprinklerService =  scope.ServiceProvider.GetRequiredService<ISprinklerService>();
+
+            await _sprinklerService.StartAsync(request.SprinklerId);
+            _logger.LogDebug("[MqttService:ProcessStartSprinklerCommand] Sprinkler Started");
         }
 
         public async Task SendStatus(SprinklerStatus sprinklerStatus)
