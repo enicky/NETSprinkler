@@ -34,6 +34,7 @@
 
 
 
+      <ProjectReference Include="..\NETSprinkler.Contracts\NETSprinkler.Contracts.csproj" />
     </ItemGroup>
 
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NETSprinkler.ApiWorker.Business.Drivers;
+using NETSprinkler.ApiWorker.Business.MQTT;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
 using NETSprinkler.ApiWorker.Tests.Builders.Sprinkler;
@@ -95,13 +96,15 @@ public class ValveServiceTests
 
     private (ISprinklerService, CancellationTokenSource, DummyDriver) GetSut()
     {
+        //var q = new MqttService(new MQTTnet.Client.MqttClientOptions() { }, new NullLogger<MqttService>(), )
+        //var mqttServiceProvider = new MqttClientServiceProvider();
         var repositoryAsync = new RepositoryAsync<SprinklerValve>(_context);
         ILogger<ValveService> logger = new NullLogger<ValveService>();
         DummyDriver gpioDriver = new DummyDriver();
 
         IValveService service = new ValveService(logger, repositoryAsync, gpioDriver);
         ISprinklerService sprinklerService =
-            new SprinklerService(new NullLogger<SprinklerService>(), service, new UnitOfWork(_context));
+            new SprinklerService(new NullLogger<SprinklerService>(), service, new UnitOfWork(_context), null);
         return (sprinklerService, new CancellationTokenSource(), gpioDriver);
     }
 }
