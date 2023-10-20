@@ -1,9 +1,23 @@
-﻿FROM  --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim AS base
+﻿FROM  --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM  --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
+
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+ARG BUILDPLATFORM
+ARG BUILDOS
+ARG BUILDARCH
+ARG BUILDVARIANT
+RUN echo "Building on $BUILDPLATFORM, targeting $TARGETPLATFORM"
+RUN echo "Building on ${BUILDOS} and ${BUILDARCH} with optional variant ${BUILDVARIANT}"
+RUN echo "Targeting ${TARGETOS} and ${TARGETARCH} with optional variant ${TARGETVARIANT}"
+
+FROM  --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+ARG TARGETARCH
 WORKDIR /src
 COPY ["NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj", "NETSprinkler.ApiWorker/"]
 COPY ["NETSprinkler.Common/NETSprinkler.Common.csproj", "NETSprinkler.Common/"]
@@ -11,20 +25,19 @@ COPY ["NETSprinkler.ApiWorker.Business/NETSprinkler.ApiWorker.Business.csproj", 
 COPY ["NETSprinkler.Contracts/NETSprinkler.Contracts.csproj", "NETSprinkler.Contracts/"]
 COPY ["NETSprinkler.Models/NETSprinkler.Models.csproj", "NETSprinkler.Models/"]
 
-
-RUN dotnet restore "NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj"
+RUN echo "TargetArch ${TARGETARCH}"
+RUN dotnet restore  "NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" --arch $TARGETARCH
 COPY . .
 
 WORKDIR "/src/NETSprinkler.ApiWorker"
 
 
-RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore
+RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore -a $TARGETARCH
 
 FROM build AS publish
-ARG TARGETPLATFORM
 
 
-RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -a $TARGETARCH -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
 
 FROM base AS final
 WORKDIR /app
