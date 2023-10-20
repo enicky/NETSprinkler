@@ -41,6 +41,7 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
             var topicFilter = new MqttTopicFilterBuilder()
                 .WithTopic(MqttSprinklerCommandStart)
                 .Build();
+            var topicFilterStopCommand = new MqttTopicFilterBuilder().WithTopic(MqttSprinklerCommandStop).Build();
             _managedMqttClient.ApplicationMessageReceivedAsync += async (MqttApplicationMessageReceivedEventArgs arg) =>
             {
                 var topic = arg.ApplicationMessage.Topic;
@@ -60,7 +61,7 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
                 _logger.LogInformation($"Received message on topic {topic} -> {arg.ApplicationMessage.ConvertPayloadToString()}");        
                 
             };
-            await _managedMqttClient.SubscribeAsync(new List<MqttTopicFilter> { topicFilter});
+            await _managedMqttClient.SubscribeAsync(new List<MqttTopicFilter> { topicFilter, topicFilterStopCommand});
 
         }
 
