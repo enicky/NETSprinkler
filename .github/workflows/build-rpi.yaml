@@ -9,6 +9,7 @@ jobs:
       DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}  
       DOCKER_TARGET_PLATFORM: linux/arm/v7   
+      DO_PUSH: ${{ github.ref == 'refs/heads/main' || github.event_name == 'release' }}
     steps:
       - name: checkout code
         uses: actions/checkout@v3
@@ -37,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ env.DO_PUSH }}
           tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.ApiWorker/Dockerfile
           cache-from: type=registry,ref=neichmann/netsprinkler.apiworker:main
