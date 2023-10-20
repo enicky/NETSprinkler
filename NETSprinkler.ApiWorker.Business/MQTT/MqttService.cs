@@ -20,8 +20,9 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
         
         private static string MqttSprinklerStatusTopic = "sprinkler/valve/status";
         private const string MqttSprinklerCommandStart = "sprinkler/valve/cmd/start";
+        private const string MqttSprinklerCommandStop = "sprinkler/valve/cmd/stop";
 
-        
+
 
         public MqttService(MqttClientOptions options, ILogger<MqttService> logger, IServiceScopeFactory scopeFactory)
 		{
@@ -47,9 +48,14 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
                 switch (topic)
                 {
                     case MqttSprinklerCommandStart:
+                        _logger.LogInformation($"[Mqtt] Starting sprinkler ...");
                         await ProcessStartSprinklerCommand(arg.ApplicationMessage.ConvertPayloadToString());
-                        _logger.LogInformation($"[Mqtt] Start ...");
                         break;
+                    case MqttSprinklerCommandStop:
+                        _logger.LogInformation("[Mqtt:HandleMessage] Stopping Sprinkler");
+                        await ProcessStopSprinklerCommand(arg.ApplicationMessage.ConvertPayloadToString());
+                        break;
+                        
                 };
                 _logger.LogInformation($"Received message on topic {topic} -> {arg.ApplicationMessage.ConvertPayloadToString()}");        
                 
@@ -58,15 +64,25 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
 
         }
 
+        private async Task ProcessStopSprinklerCommand(string content)
+        {
+            var request = JsonConvert.DeserializeObject<MqttStopSprinklerRequest>(content);
+            _logger.LogDebug($"[MqttService:ProcessStopSprinklerCommand] Stopping sprinkler with id {request.ValveId}");
+            using var scope = _scopeFactory.CreateAsyncScope();
+            var _sprinklerService = scope.ServiceProvider.GetRequiredService<ISprinklerService>();
+            await _sprinklerService.StopAsync(request.ValveId);
+            _logger.LogDebug($"[MqttService:ProcessStopSprinklerCommand] Sprinkler stopped");
+        }
+
         private async Task ProcessStartSprinklerCommand(string content)
         {
             
             var request = JsonConvert.DeserializeObject<MqttStartSprinklerRequest>(content);
-            _logger.LogDebug($"[MqttService:ProcessStartSprinklerCommand] Starting sprinkler with id {request.SprinklerId}");
+            _logger.LogDebug($"[MqttService:ProcessStartSprinklerCommand] Starting sprinkler with id {request.ValveId}");
             using var scope = _scopeFactory.CreateAsyncScope();
             var _sprinklerService =  scope.ServiceProvider.GetRequiredService<ISprinklerService>();
 
-            await _sprinklerService.StartAsync(request.SprinklerId);
+            await _sprinklerService.StartAsync(request.ValveId);
             _logger.LogDebug("[MqttService:ProcessStartSprinklerCommand] Sprinkler Started");
         }
 
