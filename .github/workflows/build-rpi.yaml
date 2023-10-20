@@ -1,6 +1,8 @@
 name: RPI NETSprinkler Worker API Build
 run-name: RPI NETSprinkler.WorkerApi Build
-on: [push]
+on: 
+  push:
+    branches: [ main ]
 jobs:
   docker:
     
