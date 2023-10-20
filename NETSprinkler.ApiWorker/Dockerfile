@@ -3,6 +3,19 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
+
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
+ARG BUILDPLATFORM
+ARG BUILDOS
+ARG BUILDARCH
+ARG BUILDVARIANT
+RUN echo "Building on $BUILDPLATFORM, targeting $TARGETPLATFORM"
+RUN echo "Building on ${BUILDOS} and ${BUILDARCH} with optional variant ${BUILDVARIANT}"
+RUN echo "Targeting ${TARGETOS} and ${TARGETARCH} with optional variant ${TARGETVARIANT}"
+
 FROM  --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0-bookworm-slim AS build
 WORKDIR /src
 COPY ["NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj", "NETSprinkler.ApiWorker/"]
@@ -12,19 +25,18 @@ COPY ["NETSprinkler.Contracts/NETSprinkler.Contracts.csproj", "NETSprinkler.Cont
 COPY ["NETSprinkler.Models/NETSprinkler.Models.csproj", "NETSprinkler.Models/"]
 
 
-RUN dotnet restore "NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj"
+RUN dotnet restore "NETSprinkler.ApiWorker/NETSprinkler.ApiWorker.csproj" -a $TARGETARCH
 COPY . .
 
 WORKDIR "/src/NETSprinkler.ApiWorker"
 
 
-RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore
+RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore -a $TARGETARCH
 
 FROM build AS publish
-ARG TARGETPLATFORM
 
 
-RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -a $TARGETARCH -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
 
 FROM base AS final
 WORKDIR /app
