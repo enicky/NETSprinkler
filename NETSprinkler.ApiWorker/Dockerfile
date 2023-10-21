@@ -32,12 +32,12 @@ COPY . .
 WORKDIR "/src/NETSprinkler.ApiWorker"
 
 
-RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Debug --no-restore -a $TARGETARCH
+RUN dotnet build "NETSprinkler.ApiWorker.csproj" -c Release --no-restore -a $TARGETARCH
 
 FROM build AS publish
 
 
-RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -a $TARGETARCH -c Debug -o /app/publish /p:UseAppHost=false --no-restore --no-build
+RUN dotnet publish "NETSprinkler.ApiWorker.csproj" -a $TARGETARCH -c Release -o /app/publish /p:UseAppHost=false --no-restore --no-build
 
 FROM base AS final
 WORKDIR /app
