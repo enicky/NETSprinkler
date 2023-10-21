@@ -16,9 +16,9 @@ public class RPiDriver : IGpioDriver
 
     private byte _currentState = 0x0;
 
-    private GpioPin pinLatch;
-    private GpioPin pinData;
-    private GpioPin pinClock;
+    private readonly GpioPin pinLatch;
+    private readonly GpioPin pinData;
+    private readonly GpioPin pinClock;
 
     public RPiDriver(ILogger<RPiDriver> logger, IOptions<GpioConfigurationOptions> options)
     {
