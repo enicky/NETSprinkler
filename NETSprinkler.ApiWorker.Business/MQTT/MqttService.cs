@@ -38,6 +38,7 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
 
         private async Task subscribeToCommandTopics()
         {
+            _logger.LogInformation($"[MqttService:subscribteToCommandTopics] Subscribing to start and stop");
             var topicFilter = new MqttTopicFilterBuilder()
                 .WithTopic(MqttSprinklerCommandStart)
                 .Build();
