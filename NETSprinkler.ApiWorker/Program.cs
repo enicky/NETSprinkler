@@ -27,6 +27,10 @@ var configuration = configurationBuilder.Build();
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5000);
+});
 builder.Configuration.AddConfiguration(configuration);
 
 //builder.Configuration.AddJsonFile("appsettings.json", optional:true, reloadOnChange:true)
