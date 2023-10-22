@@ -30,7 +30,11 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
     public async Task TurnOn(int sprinklerValveId)
     {
         var w =  await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
-        if (w == null) throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
+        if (w == null)
+        {
+            _logger.LogError($"[ValveService:TurnOn] There was an error retrieving info about valve with id {sprinklerValveId}");
+            throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
+        }
         // Perform GPIO functionality
         await _gpioDriver.OpenPin(w.Port);
         w!.Status!.IsOpen = true;
@@ -40,7 +44,11 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
     public async Task TurnOff(int sprinklerValveId)
     {
         var w = await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
-        if (w == null) throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
+        if (w == null)
+        {
+            _logger.LogError($"[ValveService:TurnOff] There was an error retrieving info about valve with id {sprinklerValveId}");
+            throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
+        }
         // Perform GPIO Functionality
         await _gpioDriver.ClosePin(w.Port);
         w!.Status!.IsOpen = false;
