@@ -41,7 +41,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
     RID=linux-arm ; \
     fi \
     && echo "RID = "  $RID \
-    && dotnet build "NETSprinkler.ApiWorker.csproj" -c Release --no-restore -r $RID 
+    && dotnet build "NETSprinkler.ApiWorker.csproj" -c Release --no-restore  --arch $TARGETARCH
 FROM build AS publish
 
 
@@ -52,7 +52,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
     elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then \
     RID=linux-arm ; \
     fi \
-    && dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore --no-build  -r $RID --self-contained false
+    && dotnet publish "NETSprinkler.ApiWorker.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore --no-build --arch $TARGETARCH
 
 FROM base AS final
 WORKDIR /app
