@@ -2,7 +2,6 @@ using System.Device.Gpio;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NETSprinkler.Common.Config.Gpio;
-using NETSprinkler.Common.Config.Mqtt;
 using NETSprinkler.Common.Extensions;
 
 namespace NETSprinkler.ApiWorker.Business.Drivers;
