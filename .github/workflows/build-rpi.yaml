@@ -43,7 +43,6 @@ jobs:
           push: ${{ env.DO_PUSH }}
           tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.ApiWorker/Dockerfile
-          platforms: linux/arm64,linux/arm/v7
           cache-from: type=registry,ref=neichmann/netsprinkler.apiworker:main
           cache-to: type=inline
           
