@@ -23,7 +23,7 @@ public class RPiDriver : IGpioDriver
     public RPiDriver(ILogger<RPiDriver> logger, IOptions<GpioConfigurationOptions> options)
     {
         _logger = logger;
-        this._options = options.Value;
+        _options = options.Value;
         var gpio = new GpioController();
         var nbrScheme = gpio.NumberingScheme;
         _logger.LogInformation($"[] numberingschema {nbrScheme}");

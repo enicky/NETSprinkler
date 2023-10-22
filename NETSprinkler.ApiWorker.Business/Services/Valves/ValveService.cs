@@ -27,30 +27,41 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
         return r!;
     }
 
-    public async Task TurnOn(int sprinklerValveId)
+    public async Task<bool> TurnOn(int sprinklerValveId)
     {
         var w =  await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
-        if (w == null)
+        if (w == null || w.Status == null)
         {
             _logger.LogError($"[ValveService:TurnOn] There was an error retrieving info about valve with id {sprinklerValveId}");
             throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
         }
+        if(w.Status.IsOpen)
+        {
+            _logger.LogInformation($"[ValveService:TurnOn] Valve was already open. Do not trigger GPIO driver again");
+            return false;
+        }
         // Perform GPIO functionality
         await _gpioDriver.OpenPin(w.Port);
         w!.Status!.IsOpen = true;
-        
+        return true;
     }
 
-    public async Task TurnOff(int sprinklerValveId)
+    public async Task<bool> TurnOff(int sprinklerValveId)
     {
         var w = await GetByIdWithInclude(sprinklerValveId, valve => valve.Status!);
-        if (w == null)
+        if (w == null || w.Status == null)
         {
             _logger.LogError($"[ValveService:TurnOff] There was an error retrieving info about valve with id {sprinklerValveId}");
             throw new SprinklerNotFoundException($"Sprinkler with id {sprinklerValveId} not found");
         }
+        if (!w.Status.IsOpen)
+        {
+            _logger.LogInformation($"[ValveService:TurnOff] Valve was already closed. Do not trigger GPIO driver again");
+            return false;
+        }
         // Perform GPIO Functionality
         await _gpioDriver.ClosePin(w.Port);
         w!.Status!.IsOpen = false;
+        return true;
     }
 }
