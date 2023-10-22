@@ -97,21 +97,6 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
             await _managedMqttClient.EnqueueAsync(message);
         }
 
-        public async Task StartMqttClient(CancellationToken token = default)
-		{
-           /* var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer(_options.Server)
-                .WithCredentials(mqttOptions.UserName, mqttOptions.Password)
-                .WithClientId("sprinkler")
-                .Build();*/
-            var managedMqttClientOptions = new ManagedMqttClientOptionsBuilder()
-                .WithClientOptions(_options)
-                .Build();
-
-
-            
-		}
-
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             var managedMqttClientOptions = new ManagedMqttClientOptionsBuilder()

@@ -6,7 +6,7 @@ on:
 jobs:
   docker:
     
-    runs-on: [self-hosted, ARM64]
+    runs-on: [self-hosted, ARM]
     env:      
       DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}  

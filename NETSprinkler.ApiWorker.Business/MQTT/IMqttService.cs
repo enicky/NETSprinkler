@@ -7,8 +7,6 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
 	public interface IMqttService : IHostedService
 	{
         Task SendStatus(SprinklerStatus sprinklerStatus);
-        Task StartMqttClient(CancellationToken token = default);
-
     }
 }
 
