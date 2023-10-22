@@ -18,31 +18,33 @@ public class SprinklerService: ISprinklerService
         _logger = logger;
         _valveService = valveService;
         _unitOfWork = unitOfWork;
-        this._mqttService = mqttServiceProvider.MqttService;
+        _mqttService = mqttServiceProvider.MqttService;
     }
 
 
     public async Task StartAsync(int sprinklerValveId)
     {
         _logger.LogInformation("[SprinklerService::StartAsync] Starting Sprinkler valve {SprinklerValveId} (if not running already)", sprinklerValveId);
-        await _valveService.TurnOn(sprinklerValveId);
+        var turnResult = await _valveService.TurnOn(sprinklerValveId);
         await _mqttService.SendStatus(new SprinklerStatus
         {
             SprinklerId = sprinklerValveId,
             Status = SprinklerState.Open
         });
-        await _unitOfWork.SaveChangesAsync();
+        if(turnResult)
+            await _unitOfWork.SaveChangesAsync();
     }
 
     public async Task StopAsync(int sprinklerValveId)
     {
         _logger.LogInformation("[SprinklerService::StopAsync] Stopping Sprinkler valve {SprinklerValveId} (if not stopped already)",  sprinklerValveId);
-        await _valveService.TurnOff(sprinklerValveId);
+        var turnResult = await _valveService.TurnOff(sprinklerValveId);
         await _mqttService.SendStatus(new SprinklerStatus
         {
             SprinklerId = sprinklerValveId,
             Status = SprinklerState.Closed
         });
-        await _unitOfWork.SaveChangesAsync();
+        if(turnResult)
+            await _unitOfWork.SaveChangesAsync();
     }
 }
