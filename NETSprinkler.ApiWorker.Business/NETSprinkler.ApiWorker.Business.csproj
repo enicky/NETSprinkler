@@ -58,9 +58,15 @@
     <ItemGroup>
       <None Remove="MQTT\" />
       <None Remove="Extensions\" />
+      <None Remove="Services\Scheduler\" />
+      <None Remove="Services\Valve\" />
+      <None Remove="Automapper\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="MQTT\" />
       <Folder Include="Extensions\" />
+      <Folder Include="Services\Scheduler\" />
+      <Folder Include="Services\Valve\" />
+      <Folder Include="Automapper\" />
     </ItemGroup>
 </Project>

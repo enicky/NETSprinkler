@@ -11,13 +11,17 @@ public class RunSprinklerJob
 {
     private readonly ILogger<RunSprinklerJob> _logger;
     private readonly IJobManager _jobManager;
-    private readonly ISchedulerService _schedulerService;
+    private readonly IScheduleService _schedulerService;
     private readonly ISprinklerService _sprinklerService;
     private readonly IValveService _valveService;
     private readonly IMqttService _mqttService;
 
-    public RunSprinklerJob(ILogger<RunSprinklerJob> logger, IJobManager jobManager, ISchedulerService schedulerService,
-        ISprinklerService sprinklerService, IValveService valveService, MqttClientServiceProvider mqttServiceProvider)
+    public RunSprinklerJob(ILogger<RunSprinklerJob> logger,
+            IJobManager jobManager,
+            IScheduleService schedulerService,
+            ISprinklerService sprinklerService,
+            IValveService valveService,
+            MqttClientServiceProvider mqttServiceProvider)
     {
         _logger = logger;
         _jobManager = jobManager;

@@ -1,21 +1,25 @@
 using Hangfire;
+using Hangfire.Console.Extensions;
+using Hangfire.Storage;
 using Microsoft.Extensions.Logging;
 using NETSprinkler.ApiWorker.Business.Jobs;
 using NETSprinkler.Common.Exceptions;
 using NETSprinkler.Common.Repositories;
 using NETSprinkler.Common.Services;
 using NETSprinkler.Models.Entity.Schedule;
+using Serilog.Core;
 
 namespace NETSprinkler.ApiWorker.Business.Services.Scheduler;
 
-public class SchedulerService : ServiceAsync<Schedule>, ISchedulerService
+public class HangfireScheduleService : ServiceAsync<Schedule>, IHangfireScheduleService
 {
-    private readonly ILogger<SchedulerService> _logger;
+    private readonly ILogger<HangfireScheduleService> _logger;
     private readonly IRepositoryAsync<Schedule> _repositoryAsync;
     private readonly IRecurringJobManager _jobManager;
     private readonly ICronScheduleService _cronScheduleService;
 
-    public SchedulerService(ILogger<SchedulerService> logger, IRepositoryAsync<Schedule> repositoryAsync,
+    public HangfireScheduleService(ILogger<HangfireScheduleService> logger,
+        IRepositoryAsync<Schedule> repositoryAsync,
         IRecurringJobManager jobManager,
         ICronScheduleService cronScheduleService)
         : base(repositoryAsync)
@@ -34,7 +38,7 @@ public class SchedulerService : ServiceAsync<Schedule>, ISchedulerService
         AddRecurringJobs(GenerateJobIds(id), id, await _cronScheduleService.GenerateCronStrings(registeredSchedule));
     }
 
-    
+
     public async Task DeleteSchedule(int id, CancellationToken cancellation = default)
     {
         var registeredSchedule = await GetById(id);
@@ -75,4 +79,13 @@ public class SchedulerService : ServiceAsync<Schedule>, ISchedulerService
 
     }
 
+    public Task<List<string>> GetAllHangfireSchedules(CancellationToken cancellationToken)
+    {
+        using (var connection = JobStorage.Current.GetConnection())
+        {
+            var recurringJobs = connection.GetRecurringJobs();
+            var jobIds = recurringJobs.Select(q => q.Id).ToList();
+            return Task.FromResult(jobIds);
+        }
+    }
 }

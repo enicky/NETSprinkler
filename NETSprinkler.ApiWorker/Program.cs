@@ -7,11 +7,11 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
 using NETSprinkler.ApiWorker;
-using NETSprinkler.ApiWorker.Business.MQTT;
-using Microsoft.Extensions.Options;
 using NETSprinkler.Common.Config.Mqtt;
 using NETSprinkler.Common.Config.Gpio;
 using NETSprinkler.ApiWorker.Business.Extensions;
+using AutoMapper.Extensions.ExpressionMapping;
+using NETSprinkler.ApiWorker.Business.Automapper;
 
 void SetConfiguration(IConfigurationBuilder builder)
     => builder.AddUserSecrets<Program>()
@@ -89,6 +89,12 @@ builder.Services.AddHangfire(configuration => configuration
 builder.Services.AddHangfireConsoleExtensions();
 builder.Services.AddHangfireServer();
 builder.Services.AddSerilog();
+builder.Services.AddAutoMapper(c =>
+{
+    c.AddExpressionMapping();
+}, typeof(MappingProfile).Assembly);
+
+
 
 var app = builder.Build();
 var options = new DashboardOptions()
