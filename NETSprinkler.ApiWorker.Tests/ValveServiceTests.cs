@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NETSprinkler.ApiWorker.Business.Drivers;
-using NETSprinkler.ApiWorker.Business.MQTT;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
 using NETSprinkler.ApiWorker.Tests.Builders.Sprinkler;

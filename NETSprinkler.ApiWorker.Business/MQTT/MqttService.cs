@@ -92,6 +92,7 @@ namespace NETSprinkler.ApiWorker.Business.MQTT
         {
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(MqttSprinklerStatusTopic)
+                .WithRetainFlag(true)
                 .WithPayload(JsonConvert.SerializeObject(sprinklerStatus))
                 .Build();
             await _managedMqttClient.EnqueueAsync(message);

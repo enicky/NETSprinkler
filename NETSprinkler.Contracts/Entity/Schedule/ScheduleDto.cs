@@ -12,7 +12,7 @@ public class ScheduleDto : EntityDto, IMapFrom
     public int StartMinute { get; set; } = 0;
     public int EndHour { get; set; } = 0;
     public int EndMinute { get; set; } = 0;
-    public int SprinklerValveId { get; set; }
+    public int? SprinklerValveId { get; set; }
     public IEnumerable<DayReferenceDto> DaysToRun { get; set; } = new List<DayReferenceDto>(); // starting with 0 = monday
 
 

@@ -15,9 +15,9 @@ public class RPiDriver : IGpioDriver
 
     private byte _currentState = 0x0;
 
-    private readonly GpioPin pinLatch;
-    private readonly GpioPin pinData;
-    private readonly GpioPin pinClock;
+    private readonly GpioPin? pinLatch;
+    private readonly GpioPin? pinData;
+    private readonly GpioPin? pinClock;
 
     public RPiDriver(ILogger<RPiDriver> logger, IOptions<GpioConfigurationOptions> options)
     {
@@ -50,9 +50,9 @@ public class RPiDriver : IGpioDriver
         {
             var pinValue = (b & (0x80 >> i)) > 0 ? PinValue.High : PinValue.Low;
             _logger.LogInformation($"[WriteSIPO] i {i} => {pinValue} ==> {(b & (0x80 >> i))}");
-            pinClock.Write(PinValue.Low);
-            pinData.Write(pinValue);
-            pinClock.Write(PinValue.High);
+            pinClock?.Write(PinValue.Low);
+            pinData?.Write(pinValue);
+            pinClock?.Write(PinValue.High);
             //pinClock.Write(PinValue.Low);
             //pinClock.Write(PinValue.High);
             //PulseSerialClock();
@@ -63,8 +63,8 @@ public class RPiDriver : IGpioDriver
     void PulseLatch()
     {
         _logger.LogInformation("[] Start PulseLatch");
-        pinLatch.Write(PinValue.High);
-        pinLatch.Write(PinValue.Low);
+        pinLatch?.Write(PinValue.High);
+        pinLatch?.Write(PinValue.Low);
         _logger.LogInformation("[] Finished PulseLatch");
     }
 
@@ -72,8 +72,8 @@ public class RPiDriver : IGpioDriver
     void PulseSerialClock()
     {
         _logger.LogInformation("[] Start Pulse Serial Clock");
-        pinClock.Write(PinValue.High);
-        pinClock.Write(PinValue.Low);
+        pinClock?.Write(PinValue.High);
+        pinClock?.Write(PinValue.Low);
         _logger.LogInformation("[] Finished Pulse Serial Clock");
     }
 
@@ -121,30 +121,30 @@ public class RPiDriver : IGpioDriver
 
         if (_options.Enabled)
         {
-            pinClock.SetPinMode(PinMode.Output);
-            pinData.SetPinMode(PinMode.Output);
-            pinLatch.SetPinMode(PinMode.Output);
+            pinClock?.SetPinMode(PinMode.Output);
+            pinData?.SetPinMode(PinMode.Output);
+            pinLatch?.SetPinMode(PinMode.Output);
 
             //pinLatch.Write(PinValue.Low);
             //_logger.LogInformation("[OpenPin] Finished pulling latch low");
-            pinClock.Write(PinValue.Low);
-            pinLatch.Write(PinValue.Low);
-            pinClock.Write(PinValue.High);
+            pinClock?.Write(PinValue.Low);
+            pinLatch?.Write(PinValue.Low);
+            pinClock?.Write(PinValue.High);
 
             WriteSIPO(_currentState);
 
-            pinClock.Write(PinValue.Low);
-            pinLatch.Write(PinValue.High);
-            pinClock.Write(PinValue.High);
+            pinClock?.Write(PinValue.Low);
+            pinLatch?.Write(PinValue.High);
+            pinClock?.Write(PinValue.High);
 
 
             //_logger.LogInformation("[OpenPin] Start pulling Latch High");
             //        pinLatch.Write(PinValue.High);
             //_logger.LogInformation("[OpenPin] Finished pulling Latch High");
 
-            pinClock.SetPinMode(PinMode.Input);
-            pinData.SetPinMode(PinMode.Input);
-            pinLatch.SetPinMode(PinMode.Input);
+            pinClock?.SetPinMode(PinMode.Input);
+            pinData?.SetPinMode(PinMode.Input);
+            pinLatch?.SetPinMode(PinMode.Input);
         }
         return Task.CompletedTask;
     }
@@ -160,16 +160,16 @@ public class RPiDriver : IGpioDriver
 
         if (_options.Enabled)
         {
-            pinClock.SetPinMode(PinMode.Output);
-            pinData.SetPinMode(PinMode.Output);
-            pinLatch.SetPinMode(PinMode.Output);
+            pinClock?.SetPinMode(PinMode.Output);
+            pinData?.SetPinMode(PinMode.Output);
+            pinLatch?.SetPinMode(PinMode.Output);
 
             WriteSIPO(_currentState);
             PulseLatch();
 
-            pinClock.SetPinMode(PinMode.Input);
-            pinData.SetPinMode(PinMode.Input);
-            pinLatch.SetPinMode(PinMode.Input);
+            pinClock?.SetPinMode(PinMode.Input);
+            pinData?.SetPinMode(PinMode.Input);
+            pinLatch?.SetPinMode(PinMode.Input);
         }
         return Task.CompletedTask;
     }

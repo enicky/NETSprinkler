@@ -1,14 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using NETSprinkler.ApiWorker.Business.Drivers;
 using NETSprinkler.ApiWorker.Business.Jobs;
-using NETSprinkler.ApiWorker.Business.MQTT;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
 using NETSprinkler.Common.DbContext;
 using NETSprinkler.Common.Repositories;
 using NETSprinkler.Common.Services;
-using Serilog;
 
 namespace NETSprinkler.ApiWorker.Business.Helpers;
 
@@ -21,10 +19,14 @@ public static class NetSprinklerServiceHelpers
         s.AddTransient<RunSprinklerJob>();
         s.AddScoped<ISprinklerService, SprinklerService>();
         s.AddScoped<ICronScheduleService, CronScheduleService>();
-        s.AddScoped<ISchedulerService, SchedulerService>();
+        s.AddScoped<IScheduleService, ScheduleService>();
         s.AddScoped(typeof(IRepositoryAsync<>), typeof(RepositoryAsync<>));
         s.AddScoped<IValveService, ValveService>();
-        s.AddSingleton<IGpioDriver, RPiDriver>();  
+        s.AddSingleton<IGpioDriver, RPiDriver>();
+        s.AddTransient<IValveService, ValveService>();
+        s.AddTransient<NETSprinkler.ApiWorker.Business.Services.Valve.IValveService, NETSprinkler.ApiWorker.Business.Services.Valve.ValveService>();
+        s.AddTransient<Services.Valve.IValveSettingsService, Services.Valve.ValveSettingsService>();
+        s.AddTransient<IHangfireScheduleService, HangfireScheduleService>();
         //s.AddScoped<IGpioDriver, DummyDriver>();
         return s;
     }
