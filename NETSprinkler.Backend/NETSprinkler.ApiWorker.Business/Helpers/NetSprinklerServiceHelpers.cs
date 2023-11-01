@@ -24,7 +24,7 @@ public static class NetSprinklerServiceHelpers
         s.AddScoped<IValveService, ValveService>();
         s.AddSingleton<IGpioDriver, RPiDriver>();
         s.AddTransient<IValveService, ValveService>();
-        s.AddTransient<NETSprinkler.ApiWorker.Business.Services.Valve.IValveService, NETSprinkler.ApiWorker.Business.Services.Valve.ValveService>();
+        s.AddTransient<Services.Valve.IValveService, NETSprinkler.ApiWorker.Business.Services.Valve.ValveService>();
         s.AddTransient<Services.Valve.IValveSettingsService, Services.Valve.ValveSettingsService>();
         s.AddTransient<IHangfireScheduleService, HangfireScheduleService>();
         //s.AddScoped<IGpioDriver, DummyDriver>();
