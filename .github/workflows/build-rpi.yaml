@@ -42,7 +42,7 @@ jobs:
           context: NETSPrinkler.Backend/.
           push: ${{ env.DO_PUSH }}
           tags: ${{ steps.meta.outputs.tags }}
-          file: NETSPrinkler.Backend/NETSprinkler.ApiWorker/Dockerfile
+          file: NETSprinkler.Backend/NETSprinkler.ApiWorker/Dockerfile
           cache-from: type=registry,ref=neichmann/netsprinkler.apiworker:main
           cache-to: type=inline
           
