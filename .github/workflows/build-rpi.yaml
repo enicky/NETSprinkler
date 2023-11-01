@@ -39,7 +39,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: NETSPrinkler.Backend/.
+          context: NETSprinkler.Backend/.
           push: ${{ env.DO_PUSH }}
           tags: ${{ steps.meta.outputs.tags }}
           file: NETSprinkler.Backend/NETSprinkler.ApiWorker/Dockerfile
