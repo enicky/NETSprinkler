@@ -56,7 +56,7 @@ builder.Services.Configure<GpioConfigurationOptions>(builder.Configuration.GetSe
 //var mqttService = new MqttService(mqttConfiguration!.Value, builder.Services.BuildServiceProvider().GetService<ILogger<MqttService>>());
 //await mqttService.StartMqttClient();
 
-builder.Services.AddMqttClientHostedService();
+builder.Services.AddMqttClientHostedService(configuration);
 
 //builder.Services.AddSingleton<IMqttService, MqttService>();
 

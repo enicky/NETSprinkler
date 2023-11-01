@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet.Client;
@@ -8,16 +9,21 @@ namespace NETSprinkler.ApiWorker.Business.Extensions
 {
 	public static class ServiceCollectionExtensions
 	{
-		public static IServiceCollection AddMqttClientHostedService(this IServiceCollection services)
+		public static IServiceCollection AddMqttClientHostedService(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddMqttClientServiceWithConfig(optionsBuilder =>
 			{
 				//var clientSettinigs = AppSettingsProvider.ClientSettings;
 				//var brokerHostSettings = AppSettingsProvider.BrokerHostSettings;
-				optionsBuilder
-			.WithTcpServer("192.168.1.154")
-			.WithCredentials("enicky", "Aveve2008")
-			.WithClientId("sprinkler");
+				var server = configuration.GetSection("Mqtt")["Server"];
+                var userName = configuration.GetSection("Mqtt")["UserName"];
+				var password = configuration.GetSection("Mqtt")["Password"];
+				var clientId = configuration.GetSection("Mqtt")["ClientId"];
+                optionsBuilder
+					.WithTcpServer(server)
+					.WithCredentials(userName, password)
+					.WithClientId(clientId)
+					.WithKeepAlivePeriod(TimeSpan.FromSeconds(3));
 			
                 //optionsBuilder
                 //.WithCredentials(clientSettinigs.UserName, clientSettinigs.Password)

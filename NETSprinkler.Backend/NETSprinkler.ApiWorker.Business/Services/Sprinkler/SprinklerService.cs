@@ -26,11 +26,13 @@ public class SprinklerService: ISprinklerService
     {
         _logger.LogInformation("[SprinklerService::StartAsync] Starting Sprinkler valve {SprinklerValveId} (if not running already)", sprinklerValveId);
         var turnResult = await _valveService.TurnOn(sprinklerValveId);
+        _logger.LogInformation("[SprinklerService::StartAsync] Start sending MQTT message");
         await _mqttService.SendStatus(new SprinklerStatus
         {
             SprinklerId = sprinklerValveId,
             Status = SprinklerState.Open
         });
+        _logger.LogInformation("[SprinklerService::StartAsync] Finished sending MQTT message");
         if(turnResult)
             await _unitOfWork.SaveChangesAsync();
     }
