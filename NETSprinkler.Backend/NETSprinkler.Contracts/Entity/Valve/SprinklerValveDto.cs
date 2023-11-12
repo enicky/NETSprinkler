@@ -8,6 +8,7 @@ public class SprinklerValveDto : EntityDto, IMapFrom
 {
     public string Name { get; set; } = string.Empty;
     public int Port { get; set; } = 0;
+    public bool Enabled { get; set; } = true;
 
     public void Mapping(Profile profile)
     {

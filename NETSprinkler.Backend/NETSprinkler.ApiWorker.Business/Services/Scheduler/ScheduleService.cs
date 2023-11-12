@@ -13,6 +13,8 @@ namespace NETSprinkler.ApiWorker.Business.Services.Scheduler
         Task DeleteAsync(int id);
         Task<List<ScheduleDto>> GetAll(CancellationToken cancellationToken);
         Task<ScheduleDto> GetScheduleById(int jobId);
+        Task DisableSchedule(int id);
+        Task EnableSchedule(int id);
     }
 
 
@@ -39,6 +41,19 @@ namespace NETSprinkler.ApiWorker.Business.Services.Scheduler
             var schedule = await schedulerRepository.GetById(id).ConfigureAwait(false);
             if (schedule == null) return;
             await schedulerRepository.DeleteAsync(schedule);
+        }
+
+        public async Task DisableSchedule(int id)
+        {
+            var schedule = await schedulerRepository.GetById(id).ConfigureAwait(false);
+            schedule!.Enabled = false;
+
+        }
+
+        public async Task EnableSchedule(int id)
+        {
+            var schedule = await schedulerRepository.GetById(id).ConfigureAwait(false);
+            schedule!.Enabled = true;
         }
 
         public async Task<List<ScheduleDto>> GetAll(CancellationToken cancellationToken)

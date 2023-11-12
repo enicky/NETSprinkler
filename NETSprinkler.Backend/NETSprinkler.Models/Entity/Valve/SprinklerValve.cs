@@ -8,5 +8,7 @@ public class SprinklerValve : Entity
 
     public int Port { get; set; } = 0;
 
+    public bool Enabled { get; set; } = true;
+
     public ValveStatus? Status { get; set; } = new() { IsEnabled = true, IsOpen = false };
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NETSprinkler.Common.DbContext;
 
@@ -11,9 +12,11 @@ using NETSprinkler.Common.DbContext;
 namespace NETSprinkler.Common.Migrations
 {
     [DbContext(typeof(SprinklerDbContext))]
-    partial class SprinklerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231109192824_AddedEnableFlagOnValve")]
+    partial class AddedEnableFlagOnValve
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,6 @@ namespace NETSprinkler.Common.Migrations
                     b.Property<string>("DaysToRun")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
 
                     b.Property<int>("EndHour")
                         .HasColumnType("int");

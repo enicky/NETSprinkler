@@ -11,7 +11,9 @@ public class Schedule : Entity
     public int StartMinute { get; set; } = 0;
     public int EndHour { get; set; } = 0;
     public int EndMinute { get; set; } = 0;
-    
+
+    public bool Enabled { get; set; } = true;
+
     public int? SprinklerValveId { get; set; }
     public SprinklerValve? Sprinkler { get; set; } = null;
     

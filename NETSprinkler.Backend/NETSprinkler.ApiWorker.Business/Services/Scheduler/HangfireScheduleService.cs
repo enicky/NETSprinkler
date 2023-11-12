@@ -88,4 +88,5 @@ public class HangfireScheduleService : ServiceAsync<Schedule>, IHangfireSchedule
             return Task.FromResult(jobIds);
         }
     }
+
 }
