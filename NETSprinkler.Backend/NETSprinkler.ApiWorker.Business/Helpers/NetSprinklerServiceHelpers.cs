@@ -4,6 +4,7 @@ using NETSprinkler.ApiWorker.Business.Jobs;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Sprinkler;
 using NETSprinkler.ApiWorker.Business.Services.Valves;
+using NETSprinkler.ApiWorker.Business.Settings;
 using NETSprinkler.Common.DbContext;
 using NETSprinkler.Common.Repositories;
 using NETSprinkler.Common.Services;
@@ -27,6 +28,7 @@ public static class NetSprinklerServiceHelpers
         s.AddTransient<Services.Valve.IValveService, NETSprinkler.ApiWorker.Business.Services.Valve.ValveService>();
         s.AddTransient<Services.Valve.IValveSettingsService, Services.Valve.ValveSettingsService>();
         s.AddTransient<IHangfireScheduleService, HangfireScheduleService>();
+        s.AddScoped<ISettingsManager, SettingsManager>();
         //s.AddScoped<IGpioDriver, DummyDriver>();
         return s;
     }

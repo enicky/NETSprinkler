@@ -14,8 +14,10 @@
 
     <ItemGroup>
       <None Remove="Entity\Mqtt\" />
+      <None Remove="Settings\" />
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Entity\Mqtt\" />
+      <Folder Include="Settings\" />
     </ItemGroup>
 </Project>
