@@ -1,4 +1,5 @@
-﻿using NETSprinkler.Contracts.Entity.Valve;
+﻿using NETSprinkler.Contracts.Entity.Schedule;
+using NETSprinkler.Contracts.Entity.Valve;
 
 namespace NETSprinkler.Contracts.Settings
 {
@@ -13,6 +14,8 @@ namespace NETSprinkler.Contracts.Settings
         public string UpTime { get; set; } = string.Empty;
         public List<SprinklerValveDto> Valves { get; set; } = new List<SprinklerValveDto>();
         public long LastRebootTime { get; set; }
+        public long DeviceTime { get; set; }
+        public List<ScheduleDto> Schedules { get; set; } = new List<ScheduleDto>();
     }
 }
 

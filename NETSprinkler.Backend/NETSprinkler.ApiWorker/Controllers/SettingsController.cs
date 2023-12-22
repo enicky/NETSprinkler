@@ -35,7 +35,7 @@ namespace NETSprinkler.ApiWorker.Controllers
         }
 
         [HttpGet("all")]
-        public IActionResult GetAllSettings(CancellationToken token)
+        public async Task<IActionResult> GetAllSettingsAsync(CancellationToken token)
         {
             var allSettings = new AllSettings
             {
@@ -46,7 +46,9 @@ namespace NETSprinkler.ApiWorker.Controllers
                 MacAddress = _settingsManager.GetMacAddressString(),
                 UpTime = _settingsManager.GetUptimeValue(),
                 Valves = _settingsManager.GetAllValvesAsync(),
-                LastRebootTime = _settingsManager.LastRebootTime()
+                LastRebootTime = _settingsManager.LastRebootTime(),
+                DeviceTime = _settingsManager.GetDeviceTime(),
+                Schedules = _settingsManager.GetAllSchedules(token)
             };
 
             return Json(allSettings);

@@ -6,7 +6,7 @@ using NETSprinkler.Models.Entity;
 
 namespace NETSprinkler.Common.Repositories;
 
-public class RepositoryAsync<T>: IRepositoryAsync<T> where T: Entity
+public class RepositoryAsync<T> : IRepositoryAsync<T> where T : Entity
 {
     private readonly SprinklerDbContext _dbContext;
     public IQueryable<T> Entities => _dbContext.Set<T>();
@@ -44,5 +44,10 @@ public class RepositoryAsync<T>: IRepositoryAsync<T> where T: Entity
     public Task<T?> GetByIdWithInclude(int id, Expression<Func<T, Entity>> expression)
     {
         return _dbContext.Set<T>().Include(expression).FirstOrDefaultAsync(q => q.Id == id);
+    }
+
+    public IQueryable<T> GetAllWithInclude(Expression<Func<T, Entity>> includeExpression)
+    {
+        return _dbContext.Set<T>().Include(includeExpression);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NETSprinkler.Common.Repositories;
@@ -15,6 +16,7 @@ namespace NETSprinkler.ApiWorker.Business.Services.Scheduler
         Task<ScheduleDto> GetScheduleById(int jobId);
         Task DisableSchedule(int id);
         Task EnableSchedule(int id);
+        Task SetName(int scheduleId, string name);
     }
 
 
@@ -66,6 +68,13 @@ namespace NETSprinkler.ApiWorker.Business.Services.Scheduler
         {
             logger.LogInformation($"[ScheduleService:GetAll] retrueve ScheduleDto by id {jobId}");
             return mapper.Map<ScheduleDto>(await schedulerRepository.Entities.FirstOrDefaultAsync(q => q.Id == jobId).ConfigureAwait(false));
+        }
+
+        public async Task SetName(int scheduleId, string name)
+        {
+            var schedule = await schedulerRepository.GetById(scheduleId);
+            if (schedule == null) return;
+            schedule.Name = name;
         }
     }
 }

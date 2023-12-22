@@ -7,4 +7,5 @@ public interface IValveService
     Task<SprinklerValve> GetSprinklerValveById(int retrievedJobSprinklerValveId);
     Task<bool> TurnOn(int sprinklerValveId);
     Task<bool> TurnOff(int sprinklerValveId);
+    List<SprinklerValve> GetAllValvesWithSettings();
 }

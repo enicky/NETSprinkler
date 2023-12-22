@@ -8,4 +8,5 @@ public interface IHangfireScheduleService
     Task DeleteSchedule(int id, CancellationToken cancellation = default);
     Task<List<string>> GetAllHangfireSchedules(CancellationToken cancellationToken);
     Task<Schedule?> GetScheduleById(int id);
+    Task<bool> RunManually(int valveId, int seconds);
 }
