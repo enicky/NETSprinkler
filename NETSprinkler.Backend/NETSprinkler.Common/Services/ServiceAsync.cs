@@ -19,6 +19,12 @@ public class ServiceAsync<TEntity> : IServiceAsync<TEntity> where TEntity : Enti
         return _repositoryAsync.GetById(id);
     }
 
+    public IQueryable<TEntity> GetAllWithInclude(Expression<Func<TEntity, Entity>> includeExpression)
+    {
+        //TODO: Nicky fix
+        return _repositoryAsync.GetAllWithInclude(includeExpression);
+    }
+
     public Task<TEntity?> GetByIdWithInclude(int id, Expression<Func< TEntity, Entity>> expression)
     {
         var x = _repositoryAsync.GetByIdWithInclude(id: id, expression: expression);

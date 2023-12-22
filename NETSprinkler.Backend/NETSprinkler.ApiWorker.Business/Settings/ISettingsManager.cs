@@ -1,4 +1,5 @@
 ﻿using System;
+using NETSprinkler.Contracts.Entity.Schedule;
 using NETSprinkler.Contracts.Entity.Valve;
 
 namespace NETSprinkler.ApiWorker.Business.Settings
@@ -12,7 +13,11 @@ namespace NETSprinkler.ApiWorker.Business.Settings
         string GetMacAddressString();
         string GetUptimeValue();
         long LastRebootTime();
-        
+        long GetDeviceTime();
+
+        List<ScheduleDto> GetAllSchedules(CancellationToken cancellationToken = default);
+
+
     }
 }
 

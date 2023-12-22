@@ -89,4 +89,16 @@ public class HangfireScheduleService : ServiceAsync<Schedule>, IHangfireSchedule
         }
     }
 
+    public Task<bool> RunManually(int valveId, int seconds)
+    {
+        try
+        {
+            BackgroundJob.Enqueue<RunManuallySprinklerJob>(x => x.Run(valveId, seconds));
+        }catch(Exception ex)
+        {
+            _logger.LogError(ex, $"Error running manual job on valve {valveId} for {seconds}");
+            return Task.FromResult(false);
+        }
+        return Task.FromResult(true);
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.Common.DbContext;
+using NETSprinkler.Contracts.Entity.Valve;
 using NETSprinkler.Contracts.Scheduler;
 
 namespace NETSprinkler.ApiWorker.Controllers
@@ -66,6 +67,17 @@ namespace NETSprinkler.ApiWorker.Controllers
             await schedulerService.DeleteAsync(id);
             await unitOfWork.SaveChangesAsync(cancellationToken);
             return new DeleteScheduleResultDto
+            {
+                Success = true
+            };
+        }
+
+        [HttpPost("SetName")]
+        public async Task<SetNameResponseDto> SetName(CancellationToken token, [FromBody] SetNameRequestDto req)
+        {
+            await schedulerService.SetName(req.ScheduleId, req.Name);
+            await unitOfWork.SaveChangesAsync(token);
+            return new SetNameResponseDto
             {
                 Success = true
             };

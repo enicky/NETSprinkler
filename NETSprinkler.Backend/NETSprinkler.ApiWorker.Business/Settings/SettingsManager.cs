@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NETSprinkler.ApiWorker.Business.Services.Scheduler;
 using NETSprinkler.ApiWorker.Business.Services.Valve;
+using NETSprinkler.Contracts.Entity.Schedule;
 using NETSprinkler.Contracts.Entity.Valve;
 
 namespace NETSprinkler.ApiWorker.Business.Settings
@@ -97,12 +98,13 @@ namespace NETSprinkler.ApiWorker.Business.Settings
 
         public List<SprinklerValveDto> GetAllValvesAsync()
         {
-            var allValves = valveService.GetAll();
-            if(allValves is null)
+            var x = valveService.GetAllValvesWithSettings().Result;
+            //var allValves = valveService.GetAll();
+            if(x is null)
             {
                 throw new NullReferenceException("allValves may not be null !! ");
             }
-            return allValves.ToList();
+            return x;
         }
 
         public string GetMacAddressString()
@@ -135,7 +137,18 @@ namespace NETSprinkler.ApiWorker.Business.Settings
             }
         }
 
+        public long GetDeviceTime()
+        {
+            return DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        }
+
+        public  List<ScheduleDto> GetAllSchedules(CancellationToken token = default)
+        {
+            return scheduleService.GetAll(token).Result;
+        }
+
        
     }
 }
 
+    

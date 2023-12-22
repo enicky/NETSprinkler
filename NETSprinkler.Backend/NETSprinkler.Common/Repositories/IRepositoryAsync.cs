@@ -7,6 +7,7 @@ public interface IRepositoryAsync<T> where T: Entity
 {
     IQueryable<T> Entities { get; }
     IQueryable<T> GetAll(Expression<Func<T, bool>>? expression = null);
+    IQueryable<T> GetAllWithInclude(Expression<Func<T, Entity>> includeExpression);
     Task<T> AddAsync(T entity);
     Task DeleteAsync(T entity);
     Task<T?> GetById(int id);

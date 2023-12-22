@@ -7,14 +7,14 @@ namespace NETSprinkler.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ValveController: Controller
+public class ValveController : Controller
 {
     private readonly ILogger<ValveController> _logger;
     private readonly IValveService _valveService;
     private readonly IValveSettingsService _valveSettingsService;
     private readonly IUnitOfWork _unitOfWork;
 
-    public ValveController(ILogger<ValveController> logger, 
+    public ValveController(ILogger<ValveController> logger,
         IValveService valveService,
         IValveSettingsService valveSettingsService,
         IUnitOfWork unitOfWork)
@@ -54,5 +54,25 @@ public class ValveController: Controller
         await _valveService.DeleteAsync(id);
         await _unitOfWork.SaveChangesAsync(token);
         return new DeleteValveResponseDto { Success = true };
+    }
+
+    [HttpPost("EnableValve")]
+    public async Task<EnableValveReponseDto> EnableValve(CancellationToken token, [FromBody] EnableValveRequestDto req)
+    {
+        _logger.LogInformation($"[ValveController:EnableValve] Set valve {req.ValveId} to status {req.EnableValve}");
+
+        var result = await _valveService.EnableValve(req.ValveId, req.EnableValve);
+        await _unitOfWork.SaveChangesAsync(token);
+        return new EnableValveReponseDto { Success = result };
+    }
+
+    [HttpPost("Run")]
+    public async Task<RunValveResponseDto> Run(CancellationToken token, [FromBody] RunValveRequestDto req)
+    {
+        _logger.LogDebug($"[ValveController:Run] Start running valve {req.ValveId} for {req.Seconds} seconds");
+        var result = await _valveService.Run(req.ValveId, req.Seconds);
+        await _unitOfWork.SaveChangesAsync(token);
+        return new RunValveResponseDto { Success = result };
+
     }
 }

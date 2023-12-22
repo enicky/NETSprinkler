@@ -20,6 +20,12 @@ public class ValveService: ServiceAsync<SprinklerValve>, IValveService
         _gpioDriver = gpioDriver;
     }
 
+    public List<SprinklerValve> GetAllValvesWithSettings()
+    {
+        List<SprinklerValve> sprinklerValves = GetAllWithInclude(x => x.Status).ToList();
+        return sprinklerValves;
+    }
+
     public Task<SprinklerValve> GetSprinklerValveById(int sprinklerValveId)
     {
         _logger.LogDebug("[ValveService::GetSprinklerValveById] Getting valve with id {SprinklerValveId}", sprinklerValveId);
